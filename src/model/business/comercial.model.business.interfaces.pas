@@ -17,6 +17,7 @@ type
   iModelBusinessPedido = interface
     ['{6E2D3C1A-8E5A-4A6F-8B71-2E6C8146E1C2}']
     function Novo(aIdPedido, aIdCliente: Integer): iModelBusinessPedido;
+    function Abrir(aIdPedido: Integer): iModelBusinessPedido;
     function AdicionarItem(aIdProduto: Integer; aDescricao: string; aValor: Double; aQuantidade: Double): iModelBusinessPedido;
     function Finalizar: iModelBusinessPedido;
     function LinkDataSourcePedido(aDataSource: TDataSource): iModelBusinessPedido;

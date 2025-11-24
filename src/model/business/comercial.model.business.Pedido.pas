@@ -22,6 +22,7 @@ type
     destructor Destroy; override;
     class function New: iModelBusinessPedido;
     function Novo(aIdPedido, aIdCliente: Integer): iModelBusinessPedido;
+    function Abrir(aIdPedido: Integer): iModelBusinessPedido;
     function AdicionarItem(aIdProduto: Integer; aDescricao: string; aValor: Double; aQuantidade: Double): iModelBusinessPedido;
     function Finalizar: iModelBusinessPedido;
     function LinkDataSourcePedido(aDataSource: TDataSource): iModelBusinessPedido;
@@ -37,6 +38,31 @@ begin
   FQuery := TModelResourceQueryIBX.New();
   FQueryItens := TModelResourceQueryIBX.New();
   FQueryLookup := TModelResourceQueryIBX.New();
+end;
+
+function TModelBusinessPedido.Abrir(aIdPedido: Integer): iModelBusinessPedido;
+begin
+  Result := Self;
+  FIdPedido := aIdPedido;
+  try
+    FQuery.active(False)
+      .sqlClear
+      .sqlAdd('select p.IDPEDIDO, p.IDCLIENTE, p.DTEMISSAO, p.VALOR_TOTAL, c.NM_FANTASIA')
+      .sqlAdd('from PEDIDO p')
+      .sqlAdd('join CLIENTE c on c.IDCLIENTE = p.IDCLIENTE')
+      .sqlAdd('where p.IDPEDIDO = :IDPEDIDO')
+      .addParam('IDPEDIDO', FIdPedido)
+      .Open;
+
+    FQueryItens.active(False)
+      .sqlClear
+      .sqlAdd('select * from PEDIDO_ITENS where IDPEDIDO = :IDPEDIDO order by SEQUENCIA')
+      .addParam('IDPEDIDO', FIdPedido)
+      .Open;
+  except
+    on E: Exception do
+      raise Exception.Create(E.Message);
+  end;
 end;
 
 destructor TModelBusinessPedido.Destroy;

@@ -82,6 +82,7 @@ object frmPedido: TfrmPedido
       Width = 643
       Height = 21
       TabOrder = 1
+      OnChange = ComboBoxClienteChange
     end
   end
   object GroupBox2: TGroupBox
@@ -137,12 +138,20 @@ object frmPedido: TfrmPedido
       Height = 21
       TabOrder = 0
     end
-    object edtDescricao: TEdit
+    object ComboBoxProduto: TComboBox
       Left = 89
       Top = 36
       Width = 240
       Height = 21
       TabOrder = 1
+      OnChange = ComboBoxProdutoChange
+    end
+    object edtDescricao: TEdit
+      Left = 89
+      Top = 36
+      Width = 240
+      Height = 21
+      TabOrder = 6
     end
     object edtValor: TEdit
       Left = 523
@@ -164,7 +173,7 @@ object frmPedido: TfrmPedido
       Width = 100
       Height = 25
       Caption = 'Adicionar Item'
-      TabOrder = 4
+      TabOrder = 7
       OnClick = BtnAddItemClick
     end
     object edtMarca: TEdit
@@ -204,6 +213,14 @@ object frmPedido: TfrmPedido
   end
   object DSItens: TDataSource
     Left = 96
+    Top = 560
+  end
+  object DSClientes: TDataSource
+    Left = 176
+    Top = 560
+  end
+  object DSProdutos: TDataSource
+    Left = 256
     Top = 560
   end
 end
