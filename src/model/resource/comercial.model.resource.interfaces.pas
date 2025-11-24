@@ -24,6 +24,10 @@ type
     procedure next;
   end;
 
+  iQueryFactory = interface
+    ['{8F1A49E8-6D84-4E9E-8E3C-AD2F6A6D1B37}']
+    function NewQuery: iQuery;
+  end;
 
   iResource = interface
     function Conexao: iConexao;

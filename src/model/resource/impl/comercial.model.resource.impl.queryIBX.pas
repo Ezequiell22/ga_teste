@@ -31,12 +31,33 @@ type
     procedure next;
   end;
 
+  TQueryFactoryIBX = class(TInterfacedObject, iQueryFactory)
+  public
+    constructor Create;
+    class function New: iQueryFactory;
+    function NewQuery: iQuery;
+  end;
+
 implementation
 
 function TModelResourceQueryIBX.active(aValue: boolean): iQuery;
 begin
   Result := Self;
   FQuery.Active := aValue;
+end;
+
+constructor TQueryFactoryIBX.Create;
+begin
+end;
+
+class function TQueryFactoryIBX.New: iQueryFactory;
+begin
+  Result := Self.Create;
+end;
+
+function TQueryFactoryIBX.NewQuery: iQuery;
+begin
+  Result := TModelResourceQueryIBX.New;
 end;
 
 function TModelResourceQueryIBX.addParam(aParam: string; aValue: Variant): iQuery;
@@ -139,4 +160,3 @@ begin
 end;
 
 end.
-
