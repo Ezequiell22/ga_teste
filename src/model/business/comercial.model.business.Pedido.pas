@@ -4,8 +4,8 @@ interface
 
 uses
   comercial.model.business.interfaces,
+  comercial.model.resource.Interfaces,
   comercial.model.resource.impl.queryIBX,
-  comercial.model.types.Db,
   Data.DB;
 
 type
@@ -34,9 +34,9 @@ uses System.SysUtils;
 
 constructor TModelBusinessPedido.Create;
 begin
-  FQuery := TModelResourceQueryIBX.New(tcFBTeste);
-  FQueryItens := TModelResourceQueryIBX.New(tcFBTeste);
-  FQueryLookup := TModelResourceQueryIBX.New(tcFBTeste);
+  FQuery := TModelResourceQueryIBX.New();
+  FQueryItens := TModelResourceQueryIBX.New();
+  FQueryLookup := TModelResourceQueryIBX.New();
 end;
 
 destructor TModelBusinessPedido.Destroy;

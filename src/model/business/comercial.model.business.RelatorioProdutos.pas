@@ -2,7 +2,10 @@ unit comercial.model.business.RelatorioProdutos;
 
 interface
 
-uses Data.DB, comercial.model.resource.impl.queryIBX, comercial.model.types.Db, comercial.model.business.interfaces;
+uses Data.DB,
+comercial.model.resource.interfaces,
+comercial.model.resource.impl.queryIBX,
+comercial.model.business.interfaces;
 
 type
   TModelBusinessRelatorioProdutos = class(TInterfacedObject, iModelBusinessRelatorioProdutos)
@@ -22,7 +25,7 @@ uses System.SysUtils;
 
 constructor TModelBusinessRelatorioProdutos.Create;
 begin
-  FQuery := TModelResourceQueryIBX.New(tcFBTeste);
+  FQuery := TModelResourceQueryIBX.New;
 end;
 
 destructor TModelBusinessRelatorioProdutos.Destroy;

@@ -1,4 +1,4 @@
-unit comercial.view.index;
+﻿unit comercial.view.index;
 
 interface
 
@@ -33,9 +33,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure MenuClientesClick(Sender: TObject);
-    procedure MenuProdutosClick(Sender: TObject);
-    procedure MenuPedidosClick(Sender: TObject);
-    procedure MenuRelatorioClick(Sender: TObject);
+
   private
     Fcontroller: iController;
     CloseForm: Word;
@@ -58,9 +56,7 @@ uses
   comercial.view.Pedido,
   Data.DB,
   Vcl.Grids,
-  Vcl.DBGrids,
-  Vcl.ComCtrls,
-  comercial.controller.interfaces;
+  Vcl.DBGrids;
 
 procedure TfrmIndex.AppMessage(var Msg: TMsg; var Handled: Boolean);
 begin
@@ -101,7 +97,7 @@ begin
     numberVersion := '1';
     dateVersion := '28/11/2024';
 
-    self.Caption := 'M�dulo Comercial | Vers�o liberada ' + numberVersion +
+    self.Caption := ' Comercial | Vers�o liberada ' + numberVersion +
       '  | Data ' + dateVersion;
   except
     on e: Exception do
@@ -146,27 +142,3 @@ begin
   try ShowModal; finally Free; end;
 end;
 
-procedure TfrmIndex.MenuRelatorioClick(Sender: TObject);
-begin
-  inherited;
-  var frm := TForm.Create(Self);
-  try
-    frm.Caption := 'Top Produtos Vendidos';
-    frm.Width := 700; frm.Height := 500;
-    var ds := TDataSource.Create(frm);
-    var grid := TDBGrid.Create(frm); grid.Parent := frm; grid.Align := alClient; grid.DataSource := ds;
-    var pnl := TPanel.Create(frm); pnl.Parent := frm; pnl.Align := alTop; pnl.Height := 40;
-    var dtIni := TDateTimePicker.Create(frm); dtIni.Parent := pnl; dtIni.Left := 8; dtIni.Top := 8;
-    var dtFim := TDateTimePicker.Create(frm); dtFim.Parent := pnl; dtFim.Left := 180; dtFim.Top := 8;
-    var btn := TButton.Create(frm); btn.Parent := pnl; btn.Left := 360; btn.Top := 8; btn.Caption := 'Gerar';
-    Fcontroller.business.RelatorioProdutos.LinkDataSource(ds);
-    btn.OnClick := procedure(Sender: TObject)
-    begin
-      Fcontroller.business.RelatorioProdutos.Gerar(dtIni.Date, dtFim.Date);
-    end;
-    frm.Position := poScreenCenter;
-    frm.ShowModal;
-  finally
-    frm.Free;
-  end;
-end;

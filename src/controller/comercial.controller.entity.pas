@@ -6,7 +6,6 @@ uses
   comercial.controller.interfaces,
   comercial.model.DAO.interfaces,
   comercial.model.resource.interfaces,
-  comercial.model.types.Db,
   comercial.model.entity.cadCliente,
   comercial.model.entity.cadProduto,
   Data.DB;

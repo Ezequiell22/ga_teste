@@ -1,14 +1,13 @@
-unit comercial.model.resource.impl.queryIBX;
+﻿unit comercial.model.resource.impl.queryIBX;
 
 interface
 
 uses
   Data.DB,
-  IBDatabase,
-  IBQuery,
+  IBX.IBDatabase,
+  IBX.IBQuery,
   System.SysUtils,
-  comercial.model.resource.interfaces,
-  comercial.model.types.Db;
+  comercial.model.resource.interfaces;
 
 type
   TModelResourceQueryIBX = class(TInterfacedObject, iQuery)
@@ -17,9 +16,9 @@ type
     FDatabase: TIBDatabase;
     FTransaction: TIBTransaction;
   public
-    constructor Create(aDataBase: TDataBaseType);
+    constructor Create;
     destructor Destroy; override;
-    class function New(aDataBase: TDataBaseType): iQuery;
+    class function New: iQuery;
     function active(aValue: boolean): iQuery;
     function addParam(aParam: string; aValue: Variant): iQuery;
     function DataSet: TDataSet;
@@ -46,22 +45,15 @@ begin
   FQuery.Params.ParamByName(aParam).Value := aValue;
 end;
 
-constructor TModelResourceQueryIBX.Create(aDataBase: TDataBaseType);
+constructor TModelResourceQueryIBX.Create;
 begin
   FDatabase := TIBDatabase.Create(nil);
   FTransaction := TIBTransaction.Create(nil);
   FQuery := TIBQuery.Create(nil);
 
-  case aDataBase of
-    tcFBTeste:
-      begin
-        FDatabase.DatabaseName := 'C:\testeEmpresa\DADOS.FDB';
-        FDatabase.Params.Values['user_name'] := 'SYSDBA';
-        FDatabase.Params.Values['password'] := 'masterkey';
-      end;
-  else
-    raise Exception.Create('Database não configurado');
-  end;
+  FDatabase.DatabaseName := 'C:\testeEmpresa\DADOS.FDB';
+  FDatabase.Params.Values['user_name'] := 'SYSDBA';
+  FDatabase.Params.Values['password'] := 'masterkey';
 
   FTransaction.DefaultDatabase := FDatabase;
   FDatabase.DefaultTransaction := FTransaction;
@@ -116,9 +108,9 @@ begin
   Result := (FQuery.Active) and (FQuery.RecordCount = 0);
 end;
 
-class function TModelResourceQueryIBX.New(aDataBase: TDataBaseType): iQuery;
+class function TModelResourceQueryIBX.New: iQuery;
 begin
-  Result := Self.Create(aDataBase);
+  Result := Self.Create;
 end;
 
 procedure TModelResourceQueryIBX.next;

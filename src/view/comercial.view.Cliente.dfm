@@ -2,7 +2,7 @@ object frmCliente: TfrmCliente
   Left = 0
   Top = 0
   Caption = 'Clientes'
-  ClientHeight = 600
+  ClientHeight = 312
   ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,10 +11,7 @@ object frmCliente: TfrmCliente
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
-  object FDS: TDataSource
-    Left = 16
-    Top = 560
-  end
+  TextHeight = 13
   object edtId: TEdit
     Left = 8
     Top = 8
@@ -95,11 +92,20 @@ object frmCliente: TfrmCliente
   end
   object Grid: TDBGrid
     Left = 0
-    Top = 200
+    Top = 112
     Width = 800
-    Height = 400
+    Height = 200
     Align = alBottom
     DataSource = FDS
     TabOrder = 10
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object FDS: TDataSource
+    Left = 16
+    Top = 560
   end
 end

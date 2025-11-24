@@ -4,7 +4,7 @@ interface
 
 uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.StdCtrls, Vcl.DBGrids, Data.DB,
   comercial.controller,
-  comercial.controller.interfaces;
+  comercial.controller.interfaces, Vcl.Controls, Vcl.Grids;
 
 type
   TfrmProduto = class(TForm)
@@ -31,7 +31,10 @@ type
 
 implementation
 
-$R *.dfm
+uses
+  Vcl.Dialogs;
+
+{$R *.dfm}
 
 constructor TfrmProduto.Create(AOwner: TComponent);
 begin

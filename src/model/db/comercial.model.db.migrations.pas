@@ -3,8 +3,8 @@ unit comercial.model.db.migrations;
 interface
 
 uses
-  IBDatabase,
-  IBSQL,
+  IBX.IBDatabase,
+  IBX.IBSQL,
   System.SysUtils;
 
 type

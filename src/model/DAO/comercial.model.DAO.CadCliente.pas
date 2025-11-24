@@ -8,8 +8,7 @@ uses
   Data.DB,
   comercial.model.resource.interfaces,
   comercial.model.resource.impl.queryIBX,
-  System.Generics.Collections,
-  comercial.model.types.Db;
+  System.Generics.Collections;
 
 type
   TModelDAOCadCliente = class(TInterfacedObject, iModelDAOEntity<TModelEntityCadCliente>)
@@ -50,7 +49,7 @@ end;
 constructor TModelDAOCadCliente.Create;
 begin
   FEntity := TModelEntityCadCliente.Create(Self);
-  FQuery := TModelResourceQueryIBX.New(tcFBTeste);
+  FQuery := TModelResourceQueryIBX.New;
   FQuery.DataSet.AfterScroll := AfterScroll;
 end;
 

@@ -2,7 +2,7 @@ object frmProduto: TfrmProduto
   Left = 0
   Top = 0
   Caption = 'Produtos'
-  ClientHeight = 600
+  ClientHeight = 471
   ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,10 +11,7 @@ object frmProduto: TfrmProduto
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
-  object FDS: TDataSource
-    Left = 16
-    Top = 560
-  end
+  TextHeight = 13
   object edtId: TEdit
     Left = 8
     Top = 8
@@ -37,15 +34,15 @@ object frmProduto: TfrmProduto
     TabOrder = 2
   end
   object edtPreco: TEdit
-    Left = 96
-    Top = 36
+    Left = 586
+    Top = 8
     Width = 100
     Height = 21
     TabOrder = 3
   end
   object btnNovo: TButton
     Left = 8
-    Top = 68
+    Top = 35
     Width = 75
     Height = 25
     Caption = 'Novo'
@@ -54,7 +51,7 @@ object frmProduto: TfrmProduto
   end
   object btnSalvar: TButton
     Left = 88
-    Top = 68
+    Top = 35
     Width = 75
     Height = 25
     Caption = 'Salvar'
@@ -63,7 +60,7 @@ object frmProduto: TfrmProduto
   end
   object btnEditar: TButton
     Left = 168
-    Top = 68
+    Top = 35
     Width = 75
     Height = 25
     Caption = 'Editar'
@@ -72,7 +69,7 @@ object frmProduto: TfrmProduto
   end
   object btnExcluir: TButton
     Left = 248
-    Top = 68
+    Top = 35
     Width = 75
     Height = 25
     Caption = 'Excluir'
@@ -81,11 +78,20 @@ object frmProduto: TfrmProduto
   end
   object Grid: TDBGrid
     Left = 0
-    Top = 200
+    Top = 71
     Width = 800
     Height = 400
     Align = alBottom
     DataSource = FDS
     TabOrder = 8
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object FDS: TDataSource
+    Left = 16
+    Top = 560
   end
 end

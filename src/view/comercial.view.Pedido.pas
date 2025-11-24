@@ -4,28 +4,40 @@ interface
 
 uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.StdCtrls, Vcl.DBGrids, Data.DB,
   comercial.controller,
-  comercial.controller.interfaces;
+  comercial.controller.interfaces, Vcl.Controls, Vcl.Grids, Vcl.ExtCtrls;
 
 type
   TfrmPedido = class(TForm)
+    GroupBox1: TGroupBox;
+    edtIdCliente: TEdit;
+    ComboBoxCliente: TComboBox;
+    GroupBox2: TGroupBox;
+    edtIdProduto: TEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    edtDescricao: TEdit;
+    edtValor: TEdit;
+    edtQuantidade: TEdit;
+    btnAddItem: TButton;
+    Label2: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    edtMarca: TEdit;
+    Label7: TLabel;
+    Label8: TLabel;
+    Panel1: TPanel;
+    edtIdPedido: TEdit;
+    Label1: TLabel;
+    procedure edtIdPedidoExit(Sender: TObject);
   published
     FController: iController;
     DSPedido: TDataSource;
     DSItens: TDataSource;
-    edtIdPedido: TEdit;
-    edtIdCliente: TEdit;
-    edtIdProduto: TEdit;
-    edtDescricao: TEdit;
-    edtValor: TEdit;
-    edtQuantidade: TEdit;
-    btnNovo: TButton;
-    btnSelecionarCliente: TButton;
-    btnAddItem: TButton;
     btnFinalizar: TButton;
     btnImprimir: TButton;
     GridItens: TDBGrid;
     procedure BtnNovoClick(Sender: TObject);
-    procedure BtnSelecionarClienteClick(Sender: TObject);
+
     procedure BtnAddItemClick(Sender: TObject);
     procedure BtnFinalizarClick(Sender: TObject);
     procedure BtnImprimirClick(Sender: TObject);
@@ -36,7 +48,10 @@ type
 
 implementation
 
-$R *.dfm
+uses
+  Vcl.Dialogs;
+
+{$R *.dfm}
 
 constructor TfrmPedido.Create(AOwner: TComponent);
 begin
@@ -48,6 +63,12 @@ end;
 destructor TfrmPedido.Destroy;
 begin
   inherited;
+end;
+
+procedure TfrmPedido.edtIdPedidoExit(Sender: TObject);
+begin
+  if not ValidatePedidoCab(Self) then Exit;
+  FController.business.Pedido.Novo(StrToIntDef(edtIdPedido.Text, 0), StrToIntDef(edtIdCliente.Text, 0));
 end;
 
 function ValidatePedidoCab(AOwner: TfrmPedido): Boolean;
@@ -73,8 +94,7 @@ end;
 
 procedure TfrmPedido.BtnNovoClick(Sender: TObject);
 begin
-  if not ValidatePedidoCab(Self) then Exit;
-  FController.business.Pedido.Novo(StrToIntDef(edtIdPedido.Text, 0), StrToIntDef(edtIdCliente.Text, 0));
+ 
 end;
 
 procedure TfrmPedido.BtnAddItemClick(Sender: TObject);

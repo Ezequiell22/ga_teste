@@ -10,7 +10,6 @@ uses
   comercial.model.business.interfaces in 'src\model\business\comercial.model.business.interfaces.pas',
   comercial.model.resource.interfaces in 'src\model\resource\comercial.model.resource.interfaces.pas',
   comercial.model.resource.impl.queryIBX in 'src\model\resource\impl\comercial.model.resource.impl.queryIBX.pas',
-  comercial.model.types.Db in 'src\model\types\comercial.model.types.Db.pas',
   comercial.model.db.migrations in 'src\model\db\comercial.model.db.migrations.pas',
   comercial.model.entity.cadCliente in 'src\model\entity\comercial.model.entity.cadCliente.pas',
   comercial.model.entity.cadProduto in 'src\model\entity\comercial.model.entity.cadProduto.pas',
@@ -18,9 +17,10 @@ uses
   comercial.model.DAO.CadProduto in 'src\model\DAO\comercial.model.DAO.CadProduto.pas',
   comercial.model.business.Pedido in 'src\model\business\comercial.model.business.Pedido.pas',
   comercial.model.business.RelatorioProdutos in 'src\model\business\comercial.model.business.RelatorioProdutos.pas',
-  comercial.view.Cliente in 'src\view\comercial.view.Cliente.pas',
-  comercial.view.Produto in 'src\view\comercial.view.Produto.pas',
-  comercial.view.Pedido in 'src\view\comercial.view.Pedido.pas';
+  comercial.view.Cliente in 'src\view\comercial.view.Cliente.pas' {TfrmCliente},
+  comercial.view.Produto in 'src\view\comercial.view.Produto.pas' {TfrmProduto},
+  comercial.view.Pedido in 'src\view\comercial.view.Pedido.pas' {TfrmPedido},
+  comercial.model.DAO.interfaces in 'src\model\DAO\comercial.model.DAO.interfaces.pas';
 
 {$R *.res}
 

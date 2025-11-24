@@ -25,9 +25,6 @@ type
 
 implementation
 
-uses
-  comercial.model.business.Pedido,
-  comercial.model.business.RelatorioProdutos;
 
 { TControllerBusiness }
 
