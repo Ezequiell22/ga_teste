@@ -1,4 +1,4 @@
-﻿unit comercial.model.resource.impl.queryIBX;
+unit comercial.model.resource.impl.queryIBX;
 
 interface
 
@@ -7,6 +7,7 @@ uses
   IBX.IBDatabase,
   IBX.IBQuery,
   System.SysUtils,
+  System.IniFiles,
   comercial.model.resource.interfaces;
 
 type
@@ -72,9 +73,19 @@ begin
   FTransaction := TIBTransaction.Create(nil);
   FQuery := TIBQuery.Create(nil);
 
-  FDatabase.DatabaseName := 'C:\testeEmpresa\DADOS.FDB';
-  FDatabase.Params.Values['user_name'] := 'SYSDBA';
-  FDatabase.Params.Values['password'] := 'masterkey';
+  var iniPath := ExtractFilePath(ParamStr(0)) + 'comercial.ini';
+  var ini := TIniFile.Create(iniPath);
+  try
+    var dbPath := ini.ReadString('Database', 'Path', 'C:\testeEmpresa\DADOS.FDB');
+    var dbUser := ini.ReadString('Database', 'User', 'SYSDBA');
+    var dbPass := ini.ReadString('Database', 'Password', 'masterkey');
+
+    FDatabase.DatabaseName := dbPath;
+    FDatabase.Params.Values['user_name'] := dbUser;
+    FDatabase.Params.Values['password'] := dbPass;
+  finally
+    ini.Free;
+  end;
 
   FTransaction.DefaultDatabase := FDatabase;
   FDatabase.DefaultTransaction := FTransaction;
@@ -119,7 +130,7 @@ begin
     begin
       if FTransaction.InTransaction then
         FTransaction.RollbackRetaining;
-      raise Exception.Create(E.Message);
+      raise Exception.Create('Erro SQL: ' + FQuery.SQL.Text + ' | ' + E.Message);
     end;
   end;
 end;
@@ -143,7 +154,12 @@ function TModelResourceQueryIBX.open: iQuery;
 begin
   if not FDatabase.Connected then
     FDatabase.Open;
-  FQuery.Open;
+  try
+    FQuery.Open;
+  except
+    on E: Exception do
+      raise Exception.Create('Erro SQL: ' + FQuery.SQL.Text + ' | ' + E.Message);
+  end;
   Result := Self;
 end;
 
