@@ -127,7 +127,6 @@
         </DelphiCompile>
         <DCCReference Include="src\view\comercial.view.index.pas">
             <Form>frmIndex</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\controller\comercial.controller.interfaces.pas"/>
         <DCCReference Include="src\controller\comercial.controller.pas"/>
@@ -145,15 +144,12 @@
         <DCCReference Include="src\model\business\comercial.model.business.RelatorioProdutos.pas"/>
         <DCCReference Include="src\view\comercial.view.Cliente.pas">
             <Form>TfrmCliente</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\view\comercial.view.Produto.pas">
             <Form>TfrmProduto</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\view\comercial.view.Pedido.pas">
             <Form>TfrmPedido</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\model\DAO\comercial.model.DAO.interfaces.pas"/>
         <BuildConfiguration Include="Base">

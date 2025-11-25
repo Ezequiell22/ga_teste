@@ -29,16 +29,11 @@ type
     MenuProdutos: TMenuItem;
     MenuPedidos: TMenuItem;
     MenuRelatorio: TMenuItem;
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure MenuClientesClick(Sender: TObject);
+    procedure MenuProdutosClick(Sender: TObject);
 
   private
     Fcontroller: iController;
-    CloseForm: Word;
-    MutexHandle: THandle;
-    procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
   public
   end;
 
@@ -58,24 +53,6 @@ uses
   Vcl.Grids,
   Vcl.DBGrids;
 
-procedure TfrmIndex.AppMessage(var Msg: TMsg; var Handled: Boolean);
-begin
-
-  if (Msg.message = WM_KEYDOWN) or (Msg.message = WM_COMMAND) or
-    (Msg.message = WM_MOUSEMOVE) then
-  begin
-    CloseForm := 0;
-    Handled := FALSE;
-  end;
-
-  if (Msg.message = WM_KEYDOWN) and (GetKeyState(VK_CONTROL) < 0) and
-    (Msg.wParam = VK_DELETE) then
-  begin
-    Handled := True;
-  end;
-
-end;
-
 procedure TfrmIndex.MenuClientesClick(Sender: TObject);
 begin
   inherited;
@@ -83,62 +60,12 @@ begin
   try ShowModal; finally Free; end;
 end;
 
-procedure TfrmIndex.FormCreate(Sender: TObject);
-var
-  numberVersion, dateVersion: string;
-begin
-  try
-    MutexHandle := CreateMutex(nil, True, 'AppDelphiComercial');
-    if (MutexHandle = 0) or (GetLastError = ERROR_ALREADY_EXISTS) then
-      raise Exception.Create('O aplicativo j� est� em execu��o.');
-
-    SystemParametersInfo(SPI_SETBEEP, 0, nil, SPIF_SENDWININICHANGE);
-
-    numberVersion := '1';
-    dateVersion := '28/11/2024';
-
-    self.Caption := ' Comercial | Vers�o liberada ' + numberVersion +
-      '  | Data ' + dateVersion;
-  except
-    on e: Exception do
-      showMessage(e.message)
-  end;
-end;
-
-procedure TfrmIndex.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  if MutexHandle <> 0 then
-    CloseHandle(MutexHandle);
-end;
-
-procedure TfrmIndex.FormShow(Sender: TObject);
-begin
-  inherited;
-  CloseForm := 0;
-  application.OnMessage := AppMessage;
-
-  StatusBar1.Panels[0].Width := 200;
-  StatusBar1.Panels[1].Width := 200;
-
-  Fcontroller := TController.new;
-  StatusBar1.Panels[0].Text := 'Pedidos de Venda';
-  StatusBar1.Panels[1].Text := '';
-
-end;
-
-end.
 procedure TfrmIndex.MenuProdutosClick(Sender: TObject);
 begin
-  inherited;
+    inherited;
   with TfrmProduto.Create(self) do
   try ShowModal; finally Free; end;
 end;
 
-procedure TfrmIndex.MenuPedidosClick(Sender: TObject);
-begin
-  inherited;
-  with TfrmPedido.Create(self) do
-  try ShowModal; finally Free; end;
-end;
+end.
 

@@ -1,4 +1,4 @@
-unit comercial.view.Pedido;
+﻿unit comercial.view.Pedido;
 
 interface
 
@@ -211,25 +211,4 @@ begin
 end;
 
 end.
-procedure TfrmPedido.BtnSelecionarClienteClick(Sender: TObject);
-var frm: TForm; ds: TDataSource; grid: TDBGrid;
-begin
-  frm := TForm.Create(Self);
-  try
-    frm.Caption := 'Selecionar Cliente'; frm.Width := 600; frm.Height := 400; frm.Position := poScreenCenter;
-    ds := TDataSource.Create(frm);
-    grid := TDBGrid.Create(frm); grid.Parent := frm; grid.Align := alClient; grid.DataSource := ds;
-    FController.entity.cadCliente.Bind(ds).Get;
-    grid.OnDblClick := procedure(Sender: TObject)
-    begin
-      if Assigned(ds.DataSet) and not ds.DataSet.IsEmpty then
-      begin
-        edtIdCliente.Text := ds.DataSet.FieldByName('IDCLIENTE').AsString;
-        frm.ModalResult := mrOk;
-      end;
-    end;
-    frm.ShowModal;
-  finally
-    frm.Free;
-  end;
-end;
+

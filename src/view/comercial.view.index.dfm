@@ -15,9 +15,6 @@ object frmIndex: TfrmIndex
   FormStyle = fsMDIForm
   Menu = MainMenu1
   Position = poScreenCenter
-  OnCreate = FormCreate
-  OnDestroy = FormDestroy
-  OnShow = FormShow
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
@@ -34,12 +31,10 @@ object frmIndex: TfrmIndex
       item
         Width = 50
       end>
-    ExplicitTop = 630
-    ExplicitWidth = 1322
   end
   object MainMenu1: TMainMenu
-    Left = 48
-    Top = 32
+    Left = 104
+    Top = 40
     object MenuCadastros: TMenuItem
       Caption = 'Cadastros'
       object MenuClientes: TMenuItem
@@ -48,6 +43,7 @@ object frmIndex: TfrmIndex
       end
       object MenuProdutos: TMenuItem
         Caption = 'Produtos'
+        OnClick = MenuProdutosClick
       end
     end
     object MenuPedidos: TMenuItem

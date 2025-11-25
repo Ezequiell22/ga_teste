@@ -173,7 +173,7 @@ object frmPedido: TfrmPedido
       Width = 100
       Height = 25
       Caption = 'Adicionar Item'
-      TabOrder = 7
+      TabOrder = 5
       OnClick = BtnAddItemClick
     end
     object edtMarca: TEdit
@@ -181,7 +181,7 @@ object frmPedido: TfrmPedido
       Top = 36
       Width = 179
       Height = 21
-      TabOrder = 5
+      TabOrder = 4
     end
   end
   object Panel1: TPanel

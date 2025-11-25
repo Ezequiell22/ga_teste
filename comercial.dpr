@@ -2,6 +2,8 @@ program comercial;
 
 uses
   Vcl.Forms,
+  System.IniFiles,
+  System.SysUtils,
   comercial.view.index in 'src\view\comercial.view.index.pas' {frmIndex},
   comercial.controller.interfaces in 'src\controller\comercial.controller.interfaces.pas',
   comercial.controller in 'src\controller\comercial.controller.pas',
@@ -25,14 +27,30 @@ uses
 {$R *.res}
 
 begin
+   try
+    var iniPath := ExtractFilePath(ParamStr(0)) + 'comercial.ini';
+    var ini := TIniFile.Create(iniPath);
+    try
+      var dbPath := ini.ReadString('Database', 'Path', 'C:\\testeEmpresa\\DADOS.FDB');
+      var dbUser := ini.ReadString('Database', 'User', 'SYSDBA');
+      var dbPass := ini.ReadString('Database', 'Password', 'masterkey');
+      var Mig := TDbMigrations.Create(dbPath, dbUser, dbPass);
+      try
+        Mig.Apply;
+      finally
+        Mig.Free;
+      end;
+    finally
+      ini.Free;
+    end;
+    try
+    except
+    end;
+  except
+  end;
+
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  with TDbMigrations.Create('C:\testeEmpresa\DADOS.FDB','SYSDBA','masterkey') do
-  try
-    Apply;
-  finally
-    Free;
-  end;
   Application.CreateForm(TfrmIndex, frmIndex);
   Application.Run;
 end.

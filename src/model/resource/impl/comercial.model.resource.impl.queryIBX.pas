@@ -70,6 +70,7 @@ end;
 constructor TModelResourceQueryIBX.Create;
 begin
   FDatabase := TIBDatabase.Create(nil);
+  FDatabase.LoginPrompt := false;
   FTransaction := TIBTransaction.Create(nil);
   FQuery := TIBQuery.Create(nil);
 
