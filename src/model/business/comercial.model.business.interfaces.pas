@@ -30,6 +30,26 @@ type
     function LinkDataSource(aDataSource: TDataSource): iModelBusinessRelatorioProdutos;
   end;
 
+  iModelBusinessCliente = interface
+    ['{1C7D9A4A-6B23-4B3B-9E2A-8A63B6D4F5A1}']
+    function Bind(aDataSource: TDataSource): iModelBusinessCliente;
+    function Get: iModelBusinessCliente;
+    function GetById(aId: Integer): iModelBusinessCliente;
+    function Salvar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iModelBusinessCliente;
+    function Editar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iModelBusinessCliente;
+    function Excluir(aId: Integer): iModelBusinessCliente;
+  end;
+
+  iModelBusinessProduto = interface
+    ['{5B29E6D1-37B9-4C8C-8F0C-9D27E3A5B812}']
+    function Bind(aDataSource: TDataSource): iModelBusinessProduto;
+    function Get: iModelBusinessProduto;
+    function GetById(aId: Integer): iModelBusinessProduto;
+    function Salvar(aDescricao, aMarca: string; aPreco: Double): iModelBusinessProduto;
+    function Editar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iModelBusinessProduto;
+    function Excluir(aId: Integer): iModelBusinessProduto;
+  end;
+
 implementation
 
 end.

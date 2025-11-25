@@ -32,6 +32,8 @@ type
     ['{D64C6AAD-C4A3-46BC-BBE4-3CF753379DA5}']
     function Pedido: iModelBusinessPedido;
     function RelatorioProdutos: iModelBusinessRelatorioProdutos;
+    function Cliente: iModelBusinessCliente;
+    function Produto: iModelBusinessProduto;
   end;
 
   iControllerCliente = interface

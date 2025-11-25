@@ -37,7 +37,7 @@ uses comercial.view.Cliente, comercial.controller;
 
 procedure TfrmListagemCliente.btnExcluirClick(Sender: TObject);
 begin
-  FController.entity.cadCliente.Excluir(FDS.DataSet.FieldByName('IDCLIENTE')
+  FController.business.Cliente.Excluir(FDS.DataSet.FieldByName('IDCLIENTE')
     .AsInteger).Get;
 
 end;
@@ -52,7 +52,7 @@ begin
     finally
       Free;
     end;
-  FController.entity.cadCliente.Get;
+  FController.business.Cliente.Get;
 end;
 
 procedure TfrmListagemCliente.btnEditarClick(Sender: TObject);
@@ -66,14 +66,14 @@ begin
     finally
       Free;
     end;
-  FController.entity.cadCliente.Get;
+  FController.business.Cliente.Get;
 end;
 
 procedure TfrmListagemCliente.FormShow(Sender: TObject);
 begin
   FController := TController.New;
   Grid.DataSource := FDS;
-  FController.entity.cadCliente.Bind(FDS).Get;
+  FController.business.Cliente.Bind(FDS).Get;
 end;
 
 end.

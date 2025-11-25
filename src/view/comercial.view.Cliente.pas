@@ -57,7 +57,7 @@ constructor TfrmCliente.Create(AOwner: TComponent);
 begin
   inherited;
   FController := TController.New;
-  FController.entity.cadCliente.Bind(FDS).Get;
+  FController.business.Cliente.Bind(FDS).Get;
 end;
 
 destructor TfrmCliente.Destroy;
@@ -67,7 +67,7 @@ end;
 
 procedure TfrmCliente.FormShow(Sender: TObject);
 begin
-  FController.entity.cadCliente.GetById(strTointdef(edtId.Text, 0));
+  FController.business.Cliente.GetById(strTointdef(edtId.Text, 0));
   LoadData
 end;
 
@@ -118,11 +118,11 @@ begin
 
   if Trim(edtId.Text) = EmptyStr then
   begin
-    FController.entity.cadCliente.Salvar(edtFantasia.Text, edtRazao.Text,
+    FController.business.Cliente.Salvar(0, edtFantasia.Text, edtRazao.Text,
       edtCnpj.Text, edtEndereco.Text, edtTelefone.Text);
   end
   else
-    FController.entity.cadCliente.Editar(FDS.DataSet.FieldByName('IDCLIENTE')
+    FController.business.Cliente.Editar(FDS.DataSet.FieldByName('IDCLIENTE')
       .AsInteger, edtFantasia.Text, edtRazao.Text, edtCnpj.Text,
       edtEndereco.Text, edtTelefone.Text);
 

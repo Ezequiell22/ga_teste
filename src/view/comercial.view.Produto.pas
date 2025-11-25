@@ -40,7 +40,7 @@ constructor TfrmProduto.Create(AOwner: TComponent);
 begin
   inherited;
   FController := TController.New;
-  FController.entity.cadProduto.Bind(FDS).Get;
+  FController.business.Produto.Bind(FDS).Get;
 end;
 
 destructor TfrmProduto.Destroy;
@@ -69,18 +69,18 @@ end;
 procedure TfrmProduto.BtnSalvarClick(Sender: TObject);
 begin
   if not ValidateProdutoInputs(Self) then Exit;
-  FController.entity.cadProduto.Salvar(edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
+  FController.business.Produto.Salvar(edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
 end;
 
 procedure TfrmProduto.BtnEditarClick(Sender: TObject);
 begin
   if not ValidateProdutoInputs(Self) then Exit;
-  FController.entity.cadProduto.Editar(FDS.DataSet.FieldByName('IDPRODUTO').AsInteger, edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
+  FController.business.Produto.Editar(FDS.DataSet.FieldByName('IDPRODUTO').AsInteger, edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
 end;
 
 procedure TfrmProduto.BtnExcluirClick(Sender: TObject);
 begin
-  FController.entity.cadProduto.Excluir(FDS.DataSet.FieldByName('IDPRODUTO').AsInteger);
+  FController.business.Produto.Excluir(FDS.DataSet.FieldByName('IDPRODUTO').AsInteger);
 end;
 
 end.
