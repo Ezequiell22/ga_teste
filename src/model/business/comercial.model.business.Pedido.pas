@@ -6,7 +6,8 @@ uses
   comercial.model.business.interfaces,
   comercial.model.resource.Interfaces,
   comercial.model.resource.impl.queryIBX,
-  Data.DB;
+  Data.DB, Vcl.StdCtrls, comercial.model.DAO.interfaces,
+  comercial.model.entity.Cliente;
 
 type
   TModelBusinessPedido = class(TInterfacedObject, iModelBusinessPedido)
@@ -18,13 +19,15 @@ type
     FIdCliente: Integer;
     FTotal: Double;
     FIdProduto : integer;
+    FDAOCliente: iModelDAOEntity<TModelEntityCliente>;
   public
     constructor Create;
     destructor Destroy; override;
     class function New: iModelBusinessPedido;
     function Novo : iModelBusinessPedido;
     function Get: iModelBusinessPedido;
-    function Abrir(aIdPedido: Integer): iModelBusinessPedido;
+    function Abrir(aIdPedido: Integer;
+    AcomboBoxcliente : TComboBox): iModelBusinessPedido;
     function AdicionarItem(aValor: Double; aQuantidade: Double): iModelBusinessPedido;
     function Finalizar: iModelBusinessPedido;
     function LinkDataSourcePedido(aDataSource: TDataSource): iModelBusinessPedido;
@@ -35,7 +38,7 @@ type
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, comercial.model.DAO.Cliente;
 
 constructor TModelBusinessPedido.Create;
 begin
@@ -44,7 +47,8 @@ begin
   FQueryLookup := TModelResourceQueryIBX.New();
 end;
 
-function TModelBusinessPedido.Abrir(aIdPedido: Integer): iModelBusinessPedido;
+function TModelBusinessPedido.Abrir(aIdPedido: Integer;
+  AcomboBoxcliente : TComboBox): iModelBusinessPedido;
 begin
   Result := Self;
   FIdPedido := aIdPedido;
@@ -63,6 +67,17 @@ begin
       .sqlAdd('select * from PEDIDO_ITENS where IDPEDIDO = :IDPEDIDO order by SEQUENCIA')
       .addParam('IDPEDIDO', FIdPedido)
       .Open;
+
+    FIdCliente := FQuery.DataSet.FieldByName('IDCLIENTE').AsInteger;
+
+    FDAOCliente:= TmodelDAOCliente.new;
+    FDAOCliente.GetbyId(FIdCliente);
+
+    AcomboBoxcliente.Items.Clear;
+    AcomboBoxcliente.Items.Add(FDAOCliente.GetDataSet
+      .FieldByName('NM_FANTASIA').AsString);
+
+    AcomboBoxcliente.ItemIndex := 0;
   except
     on E: Exception do
       raise Exception.Create(E.Message);
@@ -128,7 +143,6 @@ begin
 
 
   FIdPedido := FQuery.DataSet.FieldByName('idn').AsInteger;
-
 
   if (FIdPedido <= 0) then
       raise Exception.Create('Não foi possível criar o pedido');

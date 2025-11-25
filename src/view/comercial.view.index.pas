@@ -51,8 +51,7 @@ uses
   comercial.view.Produto,
   comercial.view.Pedido,
   comercial.view.ListagemCliente,
-  comercial.view.ListagemProduto,
-  comercial.view.ListagemPedido;
+  comercial.view.ListagemProduto;
 
 procedure TfrmIndex.ButtonClientesClick(Sender: TObject);
 begin

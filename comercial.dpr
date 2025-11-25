@@ -29,7 +29,7 @@ uses
   comercial.model.resource.impl.factory in 'src\model\resource\impl\comercial.model.resource.impl.factory.pas',
   comercial.model.resource.impl.queryIBX in 'src\model\resource\impl\comercial.model.resource.impl.queryIBX.pas',
   comercial.view.ListagemProduto in 'src\view\comercial.view.ListagemProduto.pas' {frmListagemProduto},
-  comercial.view.ListagemPedido in 'src\view\comercial.view.ListagemPedido.pas' {frmListagemPedido};
+  comercial.view.exibePedido in 'src\view\comercial.view.exibePedido.pas' {frmExibePedido};
 
 {$R *.res}
 
@@ -45,7 +45,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmIndex, frmIndex);
-  Application.CreateForm(TfrmListagemPedido, frmListagemPedido);
+  Application.CreateForm(TfrmExibePedido, frmExibePedido);
   Application.Run;
 
 end.

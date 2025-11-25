@@ -5,7 +5,8 @@ interface
 uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.StdCtrls, Vcl.DBGrids,
   Data.DB,
   comercial.controller,
-  comercial.controller.interfaces, Vcl.Controls, Vcl.Grids, Vcl.ExtCtrls;
+  comercial.controller.interfaces, Vcl.Controls, Vcl.Grids, Vcl.ExtCtrls,
+  comercial.view.exibePedido;
 
 type
   TfrmPedido = class(TForm)
@@ -76,7 +77,8 @@ end;
 procedure TfrmPedido.edtIdPedidoExit(Sender: TObject);
 begin
 
-  FController.business.Pedido.Abrir(strTointDef(edtIdPedido.Text, 0))
+  FController.business.Pedido.Abrir(strTointDef(edtIdPedido.Text, 0),
+    comboboxcliente)
 
 end;
 
@@ -170,6 +172,19 @@ begin
   if not ValidatePedidoCab then
     Exit;
   FController.business.Pedido.Finalizar;
+
+  if MessageDlg('Deseja imprimir o pedido?',
+    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+
+    with TfrmExibePedido.Create(self) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
+
+  end
 end;
 
 procedure TfrmPedido.btnNovoClick(Sender: TObject);

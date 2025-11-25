@@ -16,7 +16,8 @@ type
     ['{6E2D3C1A-8E5A-4A6F-8B71-2E6C8146E1C2}']
     function Novo: iModelBusinessPedido;
     function Get: iModelBusinessPedido;
-    function Abrir(aIdPedido: Integer): iModelBusinessPedido;
+    function Abrir(aIdPedido: Integer; AcomboBoxcliente: TComboBox)
+      : iModelBusinessPedido;
     function AdicionarItem(aValor: Double; aQuantidade: Double)
       : iModelBusinessPedido;
     function Finalizar: iModelBusinessPedido;

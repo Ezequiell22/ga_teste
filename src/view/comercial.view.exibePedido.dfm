@@ -1,7 +1,7 @@
-object frmListagemPedido: TfrmListagemPedido
+object frmExibePedido: TfrmExibePedido
   Left = 0
   Top = 0
-  Caption = 'Listagem Pedidos'
+  Caption = 'Visualiza'#231#227'o do pedido'
   ClientHeight = 320
   ClientWidth = 783
   Color = clBtnFace
@@ -12,11 +12,25 @@ object frmListagemPedido: TfrmListagemPedido
   Font.Style = []
   OnShow = FormShow
   TextHeight = 15
+  object lblidPedido: TLabel
+    Left = 24
+    Top = 16
+    Width = 89
+    Height = 15
+    Caption = 'Pedido c'#243'digo: 1'
+  end
+  object lblCliente: TLabel
+    Left = 24
+    Top = 37
+    Width = 143
+    Height = 15
+    Caption = 'Cliente: Comercio portineri'
+  end
   object DBGrid1: TDBGrid
     Left = 0
-    Top = 56
+    Top = 72
     Width = 783
-    Height = 264
+    Height = 248
     Align = alBottom
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -25,25 +39,8 @@ object frmListagemPedido: TfrmListagemPedido
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
   end
-  object btnNovo: TButton
-    Left = 692
-    Top = 8
-    Width = 75
-    Height = 25
-    Caption = 'Novo'
-    TabOrder = 1
-    OnClick = btnNovoClick
-  end
-  object btnExcluir: TButton
-    Left = 533
-    Top = 8
-    Width = 75
-    Height = 25
-    Caption = 'Excluir'
-    TabOrder = 2
-  end
   object DataSource1: TDataSource
     Left = 344
-    Top = 152
+    Top = 160
   end
 end

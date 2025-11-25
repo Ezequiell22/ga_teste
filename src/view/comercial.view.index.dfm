@@ -38,7 +38,7 @@ object frmIndex: TfrmIndex
     Top = 86
     Width = 137
     Height = 25
-    Caption = 'Pedidos'
+    Caption = 'Pedido'
     TabOrder = 2
     OnClick = ButtonPedidosClick
   end

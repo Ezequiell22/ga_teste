@@ -43,7 +43,6 @@ object frmPedido: TfrmPedido
     Align = alTop
     Caption = 'Produto'
     TabOrder = 2
-    ExplicitTop = 124
     object Label4: TLabel
       Left = 16
       Top = 17
@@ -93,6 +92,7 @@ object frmPedido: TfrmPedido
       Top = 36
       Width = 325
       Height = 21
+      Style = csDropDownList
       TabOrder = 3
       OnSelect = ComboBoxProdutoSelect
     end
@@ -104,8 +104,6 @@ object frmPedido: TfrmPedido
     Height = 73
     Align = alTop
     TabOrder = 3
-    ExplicitLeft = 8
-    ExplicitTop = 8
     object Label1: TLabel
       Left = 16
       Top = 8
@@ -133,6 +131,7 @@ object frmPedido: TfrmPedido
       Top = 27
       Width = 643
       Height = 21
+      Style = csDropDownList
       TabOrder = 1
       OnSelect = ComboBoxClienteSelect
     end

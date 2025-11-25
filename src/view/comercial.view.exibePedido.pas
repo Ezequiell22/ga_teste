@@ -1,4 +1,4 @@
-unit comercial.view.ListagemPedido;
+unit comercial.view.exibePedido;
 
 interface
 
@@ -8,11 +8,11 @@ uses
   Vcl.StdCtrls, comercial.controller.interfaces;
 
 type
-  TfrmListagemPedido = class(TForm)
+  TfrmExibePedido = class(TForm)
     DBGrid1: TDBGrid;
-    btnNovo: TButton;
-    btnExcluir: TButton;
     DataSource1: TDataSource;
+    lblidPedido: TLabel;
+    lblCliente: TLabel;
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
   private
@@ -23,7 +23,7 @@ type
   end;
 
 var
-  frmListagemPedido: TfrmListagemPedido;
+  frmExibePedido: TfrmExibePedido;
 
 implementation
 
@@ -32,29 +32,15 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmListagemPedido.btnNovoClick(Sender: TObject);
-var frm : TfrmPedido;
-begin
-  frm := TfrmPedido.Create(self);
-
-  try
-    frm.Caption := 'Novo Pedido';
-    frm.edtIdPedido.text := EmptyStr;
-    frm.edtIdPedido.SetFocus;
-    frm.ShowModal;
-  finally
-    frm.Free;
-  end;
-
-  FController.business.Pedido.Get;
+procedure TfrmExibePedido.btnNovoClick(Sender: TObject);
+begin;
 end;
 
-procedure TfrmListagemPedido.FormShow(Sender: TObject);
+procedure TfrmExibePedido.FormShow(Sender: TObject);
 begin
   FController := TController.New;
   dbgrid1.DataSource := datasource1;
-  FController.business.Pedido.LinkDataSourcePedido(datasource1).
-    Get;
+
 end;
 
 end.
