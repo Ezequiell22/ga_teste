@@ -1,7 +1,7 @@
-unit comercial.model.resource.impl.queryIBX;
+ï»¿unit comercial.model.resource.impl.queryIBX;
 
 { arquivo da classe de query do firedac, este arquivo pode ser replicado
-  e feito a adaptadação para outro componente e por sua vez chamado sem depedencia do
+  e feito a adaptadaï¿½ï¿½o para outro componente e por sua vez chamado sem depedencia do
   firedac em outros locais...}
 
 interface
@@ -61,6 +61,10 @@ begin
   .Conexao;
   FConnection := TIBDatabase(FConexao.Connect);
   FFDTransaction.DefaultDatabase := FConnection;
+  FFDTransaction.Params.Clear;
+  FFDTransaction.Params.Add('read_committed');
+  FFDTransaction.Params.Add('rec_version');
+  FFDTransaction.Params.Add('nowait');
   FQuery.Database := FConnection;
   FQuery.Transaction := FFDTransaction;
 
@@ -128,6 +132,20 @@ end;
 
 function TModelResourceQueryIBX.open: iQuery;
 begin
+  if not FQuery.Transaction.Active then
+    FQuery.Transaction.StartTransaction
+  else
+  begin
+    try
+      FQuery.Transaction.CommitRetaining;
+//      FQuery.Transaction.StartTransaction;
+    except
+      on E: Exception do
+      begin
+        // se falhar o CommitRetaining, tenta continuar com transaÃ§Ã£o atual
+      end;
+    end;
+  end;
   FQuery.open;
 end;
 
@@ -144,3 +162,4 @@ begin
 end;
 
 end.
+

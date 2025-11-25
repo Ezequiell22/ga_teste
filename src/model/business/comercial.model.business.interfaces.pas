@@ -35,7 +35,7 @@ type
     function Bind(aDataSource: TDataSource): iModelBusinessCliente;
     function Get: iModelBusinessCliente;
     function GetById(aId: Integer): iModelBusinessCliente;
-    function Salvar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iModelBusinessCliente;
+    function Salvar(aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iModelBusinessCliente;
     function Editar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iModelBusinessCliente;
     function Excluir(aId: Integer): iModelBusinessCliente;
   end;

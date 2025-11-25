@@ -118,7 +118,7 @@ begin
 
   if Trim(edtId.Text) = EmptyStr then
   begin
-    FController.business.Cliente.Salvar(0, edtFantasia.Text, edtRazao.Text,
+    FController.business.Cliente.Salvar( edtFantasia.Text, edtRazao.Text,
       edtCnpj.Text, edtEndereco.Text, edtTelefone.Text);
   end
   else
