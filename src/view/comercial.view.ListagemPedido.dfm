@@ -10,12 +10,13 @@ object frmListagemPedido: TfrmListagemPedido
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnShow = FormShow
   TextHeight = 15
   object DBGrid1: TDBGrid
     Left = 0
-    Top = 64
+    Top = 56
     Width = 783
-    Height = 256
+    Height = 264
     Align = alBottom
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -25,20 +26,13 @@ object frmListagemPedido: TfrmListagemPedido
     TitleFont.Style = []
   end
   object btnNovo: TButton
-    Left = 539
-    Top = 18
+    Left = 611
+    Top = 17
     Width = 75
     Height = 25
     Caption = 'Novo'
     TabOrder = 1
-  end
-  object btnEditar: TButton
-    Left = 620
-    Top = 17
-    Width = 75
-    Height = 25
-    Caption = 'Editar'
-    TabOrder = 2
+    OnClick = btnNovoClick
   end
   object btnExcluir: TButton
     Left = 701
@@ -46,6 +40,18 @@ object frmListagemPedido: TfrmListagemPedido
     Width = 75
     Height = 25
     Caption = 'Excluir'
+    TabOrder = 2
+  end
+  object btnImprimir: TButton
+    Left = 530
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Imprimir'
     TabOrder = 3
+  end
+  object DataSource1: TDataSource
+    Left = 344
+    Top = 152
   end
 end

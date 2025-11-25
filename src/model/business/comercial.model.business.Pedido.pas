@@ -17,6 +17,7 @@ type
     FIdPedido: Integer;
     FIdCliente: Integer;
     FTotal: Double;
+    FIdProduto : integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -90,10 +91,10 @@ end;
 function TModelBusinessPedido.Get: iModelBusinessPedido;
 begin
   Result := Self;
-//  FQueryRead.active(False)
-//    .sqlClear
-//    .sqlAdd('select * from CLIENTE')
-//    .Open;
+  FQuery.active(False)
+    .sqlClear
+    .sqlAdd('select * from Pedido')
+    .Open;
 end;
 
 function TModelBusinessPedido.LinkDataSourceItens(aDataSource: TDataSource): iModelBusinessPedido;

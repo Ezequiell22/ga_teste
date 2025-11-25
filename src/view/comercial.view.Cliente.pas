@@ -57,7 +57,8 @@ end;
 procedure TfrmCliente.FormShow(Sender: TObject);
 begin
   FController.business.Cliente.GetById(strTointdef(edtId.Text, 0));
-  LoadData
+  LoadData;
+  edtFantasia.SetFocus;
 end;
 
 procedure TfrmCliente.LoadData;

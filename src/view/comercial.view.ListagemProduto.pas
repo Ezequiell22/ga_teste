@@ -70,7 +70,7 @@ begin
 
   try
     frm.Caption := 'Novo Produto';
-    frm.edtid.text := DataSource1.DataSet.FieldByName('idproduto').asString;
+    frm.edtid.text := EmptyStr;
     frm.edtid.ReadOnly := true;
     frm.ShowModal;
   finally

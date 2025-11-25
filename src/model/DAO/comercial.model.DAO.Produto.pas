@@ -124,7 +124,6 @@ begin
       .sqlClear
       .sqlAdd('insert into PRODUTO (IDPRODUTO, DESCRICAO, MARCA, PRECO)')
       .sqlAdd('values ((select coalesce(max(IDPRODUTO),0)+1 from PRODUTO), :DESCRICAO, :MARCA, :PRECO)')
-      .addParam('IDPRODUTO', FEntity.IDPRODUTO)
       .addParam('DESCRICAO', FEntity.DESCRICAO)
       .addParam('MARCA', FEntity.MARCA)
       .addParam('PRECO', FEntity.PRECO)

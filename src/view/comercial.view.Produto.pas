@@ -40,6 +40,8 @@ uses
 constructor TfrmProduto.Create(AOwner: TComponent);
 begin
   inherited;
+  FController := TController.New;
+  FController.business.Produto.Bind(FDS);
 end;
 
 destructor TfrmProduto.Destroy;
@@ -50,7 +52,8 @@ end;
 procedure TfrmProduto.FormShow(Sender: TObject);
 begin
   FController.business.Produto.GetById(strTointdef(edtId.Text, 0));
-  LoadData
+  LoadData;
+  edtDescricao.SetFocus;
 end;
 
 procedure TfrmProduto.LoadData;
