@@ -94,6 +94,7 @@ object frmPedido: TfrmPedido
       Width = 325
       Height = 21
       TabOrder = 3
+      OnSelect = ComboBoxProdutoSelect
     end
   end
   object Panel1: TPanel
@@ -103,35 +104,46 @@ object frmPedido: TfrmPedido
     Height = 73
     Align = alTop
     TabOrder = 3
+    ExplicitLeft = 8
+    ExplicitTop = 8
     object Label1: TLabel
-      Left = 3
-      Top = 15
+      Left = 16
+      Top = 8
       Width = 68
       Height = 13
       Caption = 'C'#243'digo pedido'
     end
     object Label8: TLabel
-      Left = 89
-      Top = 15
+      Left = 102
+      Top = 8
       Width = 33
       Height = 13
       Caption = 'Cliente'
     end
     object edtIdPedido: TEdit
-      Left = 3
-      Top = 34
+      Left = 16
+      Top = 27
       Width = 80
       Height = 21
       TabOrder = 0
       OnExit = edtIdPedidoExit
     end
     object ComboBoxCliente: TComboBox
-      Left = 89
-      Top = 34
+      Left = 102
+      Top = 27
       Width = 643
       Height = 21
       TabOrder = 1
-      OnChange = ComboBoxClienteChange
+      OnSelect = ComboBoxClienteSelect
+    end
+    object btnNovo: TButton
+      Left = 764
+      Top = 25
+      Width = 75
+      Height = 25
+      Caption = 'Novo'
+      TabOrder = 2
+      OnClick = btnNovoClick
     end
   end
   object DSPedido: TDataSource

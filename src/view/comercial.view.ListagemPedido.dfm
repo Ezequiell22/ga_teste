@@ -26,8 +26,8 @@ object frmListagemPedido: TfrmListagemPedido
     TitleFont.Style = []
   end
   object btnNovo: TButton
-    Left = 611
-    Top = 17
+    Left = 692
+    Top = 8
     Width = 75
     Height = 25
     Caption = 'Novo'
@@ -35,20 +35,12 @@ object frmListagemPedido: TfrmListagemPedido
     OnClick = btnNovoClick
   end
   object btnExcluir: TButton
-    Left = 701
-    Top = 17
+    Left = 533
+    Top = 8
     Width = 75
     Height = 25
     Caption = 'Excluir'
     TabOrder = 2
-  end
-  object btnImprimir: TButton
-    Left = 530
-    Top = 8
-    Width = 75
-    Height = 25
-    Caption = 'Imprimir'
-    TabOrder = 3
   end
   object DataSource1: TDataSource
     Left = 344

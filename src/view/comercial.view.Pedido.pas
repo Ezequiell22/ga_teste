@@ -29,16 +29,19 @@ type
     Label8: TLabel;
     ComboBoxCliente: TComboBox;
     ComboBoxProduto: TComboBox;
-
-    procedure edtIdPedidoExit(Sender: TObject);
+    btnNovo: TButton;
     procedure BtnAddItemClick(Sender: TObject);
     procedure BtnFinalizarClick(Sender: TObject);
-    procedure ComboBoxClienteChange(Sender: TObject);
-    procedure ComboBoxProdutoChange(Sender: TObject);
+    procedure ComboBoxClienteSelect(Sender: TObject);
+    procedure ComboBoxProdutoSelect(Sender: TObject);
+    procedure edtIdPedidoExit(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     FController: iController;
-    function ValidatePedidoItem : Boolean;
+    function ValidatePedidoItem: Boolean;
     function ValidatePedidoCab: Boolean;
+    procedure LoadComboboxCliente;
+    procedure LoadComboBoxProduto;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -55,12 +58,31 @@ constructor TfrmPedido.Create(AOwner: TComponent);
 begin
   inherited;
   FController := TController.New;
-  FController.business.Pedido.LinkDataSourcePedido(DSPedido)
+
+  FController.business.Pedido
+    .LinkDataSourcePedido(DSPedido)
     .LinkDataSourceItens(DSItens);
-  DSClientes.DataSet := nil;
-  DSProdutos.DataSet := nil;
+
+  LoadComboboxCliente;
+  LoadComboBoxProduto;
+
+end;
+
+destructor TfrmPedido.Destroy;
+begin
+  inherited;
+end;
+
+procedure TfrmPedido.edtIdPedidoExit(Sender: TObject);
+begin
+
+  FController.business.Pedido.Abrir(strTointDef(edtIdPedido.Text, 0))
+
+end;
+
+procedure TfrmPedido.LoadComboboxCliente;
+begin
   FController.business.Cliente.Bind(DSClientes).Get;
-  FController.business.Produto.Bind(DSProdutos).Get;
   ComboBoxCliente.Items.Clear;
   if Assigned(DSClientes.DataSet) then
   begin
@@ -72,43 +94,22 @@ begin
       DSClientes.DataSet.Next;
     end;
   end;
+end;
+
+procedure TfrmPedido.LoadComboBoxProduto;
+begin
+  FController.business.Produto.Bind(DSProdutos).Get;
+  TComboBox(FindComponent('ComboBoxProduto')).Items.Clear;
   if Assigned(DSProdutos.DataSet) then
   begin
-    if FindComponent('ComboBoxProduto') = nil then
+    DSProdutos.DataSet.First;
+    while not DSProdutos.DataSet.Eof do
     begin
-      // no-op
-    end
-    else
-    begin
-      TComboBox(FindComponent('ComboBoxProduto')).Items.Clear;
-      DSProdutos.DataSet.First;
-      while not DSProdutos.DataSet.Eof do
-      begin
-        TComboBox(FindComponent('ComboBoxProduto'))
-          .Items.Add(DSProdutos.DataSet.FieldByName('DESCRICAO').AsString);
-        DSProdutos.DataSet.Next;
-      end;
+      TComboBox(FindComponent('ComboBoxProduto'))
+        .Items.Add(DSProdutos.DataSet.FieldByName('DESCRICAO').AsString);
+      DSProdutos.DataSet.Next;
     end;
-  end;
-end;
 
-destructor TfrmPedido.Destroy;
-begin
-  inherited;
-end;
-
-procedure TfrmPedido.edtIdPedidoExit(Sender: TObject);
-var
-  id: Integer;
-begin
-  id := StrToIntDef(edtIdPedido.Text, 0);
-  if id <= 0 then
-    Exit;
-  FController.business.Pedido.Abrir(id);
-  if (DSPedido.DataSet = nil) or DSPedido.DataSet.IsEmpty then
-  begin
-    ShowMessage('Pedido não encontrado. Selecione o cliente e clique em Novo.');
-    Exit;
   end;
 end;
 
@@ -120,7 +121,7 @@ begin
     ShowMessage('ID Pedido invalido');
     Exit;
   end;
-  if Trim(ComboBoxCliente.Text) = EmptyStr  then
+  if Trim(ComboBoxCliente.Text) = EmptyStr then
   begin
     ShowMessage('ID Cliente invalido');
     Exit;
@@ -156,40 +157,46 @@ end;
 
 procedure TfrmPedido.BtnAddItemClick(Sender: TObject);
 begin
-  if not ValidatePedidoItem(Self) then
+  if not ValidatePedidoItem then
     Exit;
-  FController.business.Pedido.AdicionarItem(StrToIntDef(edtIdProduto.Text, 0),
-    edtDescricao.Text, StrToFloatDef(edtValor.Text, 0),
-    StrToFloatDef(edtQuantidade.Text, 0));
+  FController.business.Pedido
+    .AdicionarItem(
+          StrToFloatDef(edtValor.Text, 0),
+          StrToFloatDef(edtQuantidade.Text, 0));
 end;
 
 procedure TfrmPedido.BtnFinalizarClick(Sender: TObject);
 begin
-  if not ValidatePedidoCab(Self) then
+  if not ValidatePedidoCab then
     Exit;
   FController.business.Pedido.Finalizar;
 end;
 
-procedure TfrmPedido.ComboBoxClienteChange(Sender: TObject);
+procedure TfrmPedido.btnNovoClick(Sender: TObject);
 begin
-  if Assigned(DSClientes.DataSet) then
-    if DSClientes.DataSet.Locate('NM_FANTASIA', ComboBoxCliente.Text, []) then
-      edtIdCliente.Text := DSClientes.DataSet.FieldByName('IDCLIENTE').AsString;
+   FController.business
+    .Pedido.novo;
 end;
 
-procedure TfrmPedido.ComboBoxProdutoChange(Sender: TObject);
-var
-  combo: TComboBox;
+procedure TfrmPedido.ComboBoxClienteSelect(Sender: TObject);
 begin
-  combo := TComboBox(FindComponent('ComboBoxProduto'));
-  if (combo <> nil) and Assigned(DSProdutos.DataSet) then
-    if DSProdutos.DataSet.Locate('DESCRICAO', combo.Text, []) then
-    begin
-      edtIdProduto.Text := DSProdutos.DataSet.FieldByName('IDPRODUTO').AsString;
-      edtDescricao.Text := DSProdutos.DataSet.FieldByName('DESCRICAO').AsString;
-      edtMarca.Text := DSProdutos.DataSet.FieldByName('MARCA').AsString;
-      edtValor.Text := DSProdutos.DataSet.FieldByName('PRECO').AsString;
-    end;
+  if Assigned(DSClientes.DataSet) then
+  begin
+    FController.business.Pedido.
+      setIdCliente(
+        DSClientes.DataSet.FieldByName('IDCLIENTE').AsInteger);
+  end;
+end;
+
+procedure TfrmPedido.ComboBoxProdutoSelect(Sender: TObject);
+begin
+   if Assigned(DSProdutos.DataSet) then
+  begin
+    FController.business.Pedido.
+      setIdProduto(
+        DSProdutos.DataSet.FieldByName('idProduto').AsInteger);
+    edtValor.Text := DSProdutos.DataSet.FieldByName('PRECO').AsString;
+  end;
 end;
 
 end.

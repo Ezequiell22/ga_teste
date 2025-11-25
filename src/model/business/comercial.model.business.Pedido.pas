@@ -22,13 +22,15 @@ type
     constructor Create;
     destructor Destroy; override;
     class function New: iModelBusinessPedido;
-    function Novo(aIdPedido, aIdCliente: Integer): iModelBusinessPedido;
+    function Novo : iModelBusinessPedido;
     function Get: iModelBusinessPedido;
     function Abrir(aIdPedido: Integer): iModelBusinessPedido;
-    function AdicionarItem(aIdProduto: Integer; aDescricao: string; aValor: Double; aQuantidade: Double): iModelBusinessPedido;
+    function AdicionarItem(aValor: Double; aQuantidade: Double): iModelBusinessPedido;
     function Finalizar: iModelBusinessPedido;
     function LinkDataSourcePedido(aDataSource: TDataSource): iModelBusinessPedido;
     function LinkDataSourceItens(aDataSource: TDataSource): iModelBusinessPedido;
+    function setIdproduto(aValue : integer) : iModelBusinessPedido;
+    function setIdCliente(aValue : integer) : iModelBusinessPedido;
   end;
 
 implementation
@@ -114,11 +116,26 @@ begin
   Result := Self.Create;
 end;
 
-function TModelBusinessPedido.Novo(aIdPedido, aIdCliente: Integer): iModelBusinessPedido;
+function TModelBusinessPedido.Novo: iModelBusinessPedido;
 begin
   Result := Self;
-  FIdPedido := aIdPedido;
-  FIdCliente := aIdCliente;
+
+
+  FQuery.active(False)
+      .sqlClear
+      .sqlAdd('select (coalesce(max(IDPEDIDO),0)+1) idn from PEDIDO')
+      .open;
+
+
+  FIdPedido := FQuery.DataSet.FieldByName('idn').AsInteger;
+
+
+  if (FIdPedido <= 0) then
+      raise Exception.Create('Não foi possível criar o pedido');
+
+  if (FIdCliente <= 0)then
+      raise Exception.Create('Selecione um cliente');
+
   FTotal := 0;
   try
     FQuery.active(False)
@@ -151,7 +168,22 @@ begin
   end;
 end;
 
-function TModelBusinessPedido.AdicionarItem(aIdProduto: Integer; aDescricao: string; aValor: Double; aQuantidade: Double): iModelBusinessPedido;
+function TModelBusinessPedido.setIdCliente(
+  aValue: integer): iModelBusinessPedido;
+begin
+  result := Self;
+  FIdCliente := aValue
+end;
+
+function TModelBusinessPedido.setIdproduto(
+  aValue: integer): iModelBusinessPedido;
+begin
+ result := Self;
+ FIdProduto := aValue;
+end;
+
+function TModelBusinessPedido.AdicionarItem(
+    aValor: Double; aQuantidade: Double): iModelBusinessPedido;
 var
   VUnit: Double;
   VTotalItem: Double;
@@ -164,7 +196,7 @@ begin
       FQueryLookup.active(False)
         .sqlClear
         .sqlAdd('select PRECO from PRODUTO where IDPRODUTO = :IDPRODUTO')
-        .addParam('IDPRODUTO', aIdProduto)
+        .addParam('IDPRODUTO', FIdProduto)
         .Open;
       if not FQueryLookup.DataSet.IsEmpty then
         VUnit := FQueryLookup.DataSet.FieldByName('PRECO').AsFloat;
@@ -175,12 +207,12 @@ begin
 
     FQueryItens.active(False)
       .sqlClear
-      .sqlAdd('insert into PEDIDO_ITENS (IDPEDIDO, SEQUENCIA, IDPRODUTO, DESCRICAO, VALOR_UNITARIO, QUANTIDADE, VALOR_TOTAL_ITEM)')
-      .sqlAdd('values (:IDPEDIDO, (select coalesce(max(SEQUENCIA),0)+1 from PEDIDO_ITENS where IDPEDIDO = :IDPED), :IDPRODUTO, :DESCRICAO, :VALOR_UNITARIO, :QUANTIDADE, :VALOR_TOTAL_ITEM)')
+      .sqlAdd('insert into PEDIDO_ITENS (IDPEDIDO, SEQUENCIA,')
+      .sqlAdd('IDPRODUTO, VALOR_UNITARIO, QUANTIDADE, VALOR_TOTAL_ITEM)')
+      .sqlAdd('values (:IDPEDIDO, (select coalesce(max(SEQUENCIA),0)+1 from PEDIDO_ITENS where IDPEDIDO = :IDPEDIDO),')
+      .sqlAdd(' :IDPRODUTO, :VALOR_UNITARIO, :QUANTIDADE, :VALOR_TOTAL_ITEM)')
       .addParam('IDPEDIDO', FIdPedido)
-      .addParam('IDPED', FIdPedido)
-      .addParam('IDPRODUTO', aIdProduto)
-      .addParam('DESCRICAO', aDescricao)
+      .addParam('IDPRODUTO', FIdProduto)
       .addParam('VALOR_UNITARIO', VUnit)
       .addParam('QUANTIDADE', aQuantidade)
       .addParam('VALOR_TOTAL_ITEM', VTotalItem)

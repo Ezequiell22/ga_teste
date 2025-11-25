@@ -97,7 +97,6 @@ begin
       '  IDPEDIDO integer not null,' + #13#10 +
       '  SEQUENCIA integer not null,' + #13#10 +
       '  IDPRODUTO integer not null,' + #13#10 +
-      '  DESCRICAO varchar(150) not null,' + #13#10 +
       '  VALOR_UNITARIO numeric(15,2) not null,' + #13#10 +
       '  QUANTIDADE numeric(15,3) not null,' + #13#10 +
       '  VALOR_TOTAL_ITEM numeric(15,2) not null,' + #13#10 +

@@ -13,7 +13,6 @@ type
     btnNovo: TButton;
     btnExcluir: TButton;
     DataSource1: TDataSource;
-    btnImprimir: TButton;
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
   private
@@ -41,7 +40,7 @@ begin
   try
     frm.Caption := 'Novo Pedido';
     frm.edtIdPedido.text := EmptyStr;
-    frm.edtIdPedido.ReadOnly := true;
+    frm.edtIdPedido.SetFocus;
     frm.ShowModal;
   finally
     frm.Free;

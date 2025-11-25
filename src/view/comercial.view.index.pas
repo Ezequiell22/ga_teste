@@ -66,7 +66,7 @@ end;
 
 procedure TfrmIndex.ButtonPedidosClick(Sender: TObject);
 begin
-  with TfrmListagemPedido.Create(self) do
+  with TfrmPedido.Create(self) do
     try
       ShowModal;
     finally
