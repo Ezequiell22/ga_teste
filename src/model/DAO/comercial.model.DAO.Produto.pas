@@ -1,64 +1,60 @@
-unit comercial.model.DAO.CadProduto;
+unit comercial.model.DAO.Produto;
 
 interface
 
 uses
   comercial.model.DAO.interfaces,
-  comercial.model.entity.cadProduto,
+  comercial.model.entity.Produto,
   Data.DB,
   comercial.model.resource.impl.queryIBX,
   System.Generics.Collections,
   comercial.model.resource.interfaces;
 
 type
-  TModelDAOCadProduto = class(TInterfacedObject, iModelDAOEntity<TModelEntityCadProduto>)
+  TModelDAOProduto = class(TInterfacedObject, iModelDAOEntity<TModelEntityProduto>)
   private
     FQuery: iQuery;
     FDataSource: TDataSource;
-    FEntity: TModelEntityCadProduto;
+    FEntity: TModelEntityProduto;
     procedure AfterScroll(DataSet: TDataSet);
   public
     constructor Create;
     destructor Destroy; override;
-    class function New: iModelDAOEntity<TModelEntityCadProduto>;
-    function Delete: iModelDAOEntity<TModelEntityCadProduto>;
-    function DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityCadProduto>;
-    function Get: iModelDAOEntity<TModelEntityCadProduto>; overload;
-    function Insert: iModelDAOEntity<TModelEntityCadProduto>;
-    function This: TModelEntityCadProduto;
-    function Update: iModelDAOEntity<TModelEntityCadProduto>;
-    function GetbyId(AValue: integer): iModelDAOEntity<TModelEntityCadProduto>;
+    class function New: iModelDAOEntity<TModelEntityProduto>;
+    function Delete: iModelDAOEntity<TModelEntityProduto>;
+    function DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityProduto>;
+    function Get: iModelDAOEntity<TModelEntityProduto>; overload;
+    function Insert: iModelDAOEntity<TModelEntityProduto>;
+    function This: TModelEntityProduto;
+    function Update: iModelDAOEntity<TModelEntityProduto>;
+    function GetbyId(AValue: integer): iModelDAOEntity<TModelEntityProduto>;
     function GetDataSet: TDataSet;
-    function Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCadProduto>; overload;
+    function Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityProduto>; overload;
   end;
 
 implementation
 
 uses System.SysUtils;
 
-procedure TModelDAOCadProduto.AfterScroll(DataSet: TDataSet);
+procedure TModelDAOProduto.AfterScroll(DataSet: TDataSet);
 begin
-  FEntity.IDPRODUTO(DataSet.FieldByName('IDPRODUTO').AsInteger);
-  FEntity.DESCRICAO(DataSet.FieldByName('DESCRICAO').AsString);
-  FEntity.MARCA(DataSet.FieldByName('MARCA').AsString);
-  FEntity.PRECO(DataSet.FieldByName('PRECO').AsFloat);
 end;
 
-constructor TModelDAOCadProduto.Create;
+constructor TModelDAOProduto.Create;
 begin
-  FEntity := TModelEntityCadProduto.Create(Self);
+  FEntity := TModelEntityProduto.Create(Self);
   FQuery := TModelResourceQueryIBX.New;
   FQuery.DataSet.AfterScroll := AfterScroll;
 end;
 
-function TModelDAOCadProduto.DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityCadProduto>;
+function TModelDAOProduto.DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
   FDataSource := AValue;
   FDataSource.DataSet := FQuery.DataSet;
 end;
 
-function TModelDAOCadProduto.Delete: iModelDAOEntity<TModelEntityCadProduto>;
+function TModelDAOProduto.Delete: iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
   try
@@ -73,13 +69,13 @@ begin
   end;
 end;
 
-destructor TModelDAOCadProduto.Destroy;
+destructor TModelDAOProduto.Destroy;
 begin
   FEntity.Free;
   inherited;
 end;
 
-function TModelDAOCadProduto.Get: iModelDAOEntity<TModelEntityCadProduto>;
+function TModelDAOProduto.Get: iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
   try
@@ -94,12 +90,12 @@ begin
   end;
 end;
 
-function TModelDAOCadProduto.Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCadProduto>;
+function TModelDAOProduto.Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
 end;
 
-function TModelDAOCadProduto.GetbyId(AValue: integer): iModelDAOEntity<TModelEntityCadProduto>;
+function TModelDAOProduto.GetbyId(AValue: integer): iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
   try
@@ -115,19 +111,19 @@ begin
   end;
 end;
 
-function TModelDAOCadProduto.GetDataSet: TDataSet;
+function TModelDAOProduto.GetDataSet: TDataSet;
 begin
   Result := FQuery.DataSet;
 end;
 
-function TModelDAOCadProduto.Insert: iModelDAOEntity<TModelEntityCadProduto>;
+function TModelDAOProduto.Insert: iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
   try
     FQuery.active(False)
       .sqlClear
       .sqlAdd('insert into PRODUTO (IDPRODUTO, DESCRICAO, MARCA, PRECO)')
-      .sqlAdd('values (:IDPRODUTO, :DESCRICAO, :MARCA, :PRECO)')
+      .sqlAdd('values ((select coalesce(max(IDPRODUTO),0)+1 from PRODUTO), :DESCRICAO, :MARCA, :PRECO)')
       .addParam('IDPRODUTO', FEntity.IDPRODUTO)
       .addParam('DESCRICAO', FEntity.DESCRICAO)
       .addParam('MARCA', FEntity.MARCA)
@@ -139,17 +135,17 @@ begin
   end;
 end;
 
-class function TModelDAOCadProduto.New: iModelDAOEntity<TModelEntityCadProduto>;
+class function TModelDAOProduto.New: iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self.Create;
 end;
 
-function TModelDAOCadProduto.This: TModelEntityCadProduto;
+function TModelDAOProduto.This: TModelEntityProduto;
 begin
   Result := FEntity;
 end;
 
-function TModelDAOCadProduto.Update: iModelDAOEntity<TModelEntityCadProduto>;
+function TModelDAOProduto.Update: iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
   try

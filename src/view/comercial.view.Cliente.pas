@@ -29,7 +29,6 @@ type
     btnSalvar: TButton;
     procedure BtnSalvarClick(Sender: TObject);
   private
-    procedure Clear;
     procedure LoadData;
   public
     constructor Create(AOwner: TComponent); override;
@@ -42,16 +41,6 @@ uses
   Vcl.Dialogs;
 
 {$R *.dfm}
-
-procedure TfrmCliente.Clear;
-begin
-  edtId.Text := '';
-  edtFantasia.Text := '';
-  edtRazao.Text := '';
-  edtCnpj.Text := '';
-  edtEndereco.Text := '';
-  edtTelefone.Text := '';
-end;
 
 constructor TfrmCliente.Create(AOwner: TComponent);
 begin

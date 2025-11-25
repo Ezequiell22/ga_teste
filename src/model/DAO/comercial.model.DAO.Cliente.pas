@@ -1,61 +1,61 @@
-unit comercial.model.DAO.CadCliente;
+unit comercial.model.DAO.Cliente;
 
 interface
 
 uses
   comercial.model.DAO.interfaces,
-  comercial.model.entity.cadCliente,
+  comercial.model.entity.Cliente,
   Data.DB,
   comercial.model.resource.interfaces,
   comercial.model.resource.impl.queryIBX,
   System.Generics.Collections;
 
 type
-  TModelDAOCadCliente = class(TInterfacedObject, iModelDAOEntity<TModelEntityCadCliente>)
+  TModelDAOCliente = class(TInterfacedObject, iModelDAOEntity<TModelEntityCliente>)
   private
     FQuery: iQuery;
     FDataSource: TDataSource;
-    FEntity: TModelEntityCadCliente;
+    FEntity: TModelEntityCliente;
     procedure AfterScroll(DataSet: TDataSet);
   public
     constructor Create;
     destructor Destroy; override;
-    class function New: iModelDAOEntity<TModelEntityCadCliente>;
-    function Delete: iModelDAOEntity<TModelEntityCadCliente>;
-    function DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityCadCliente>;
-    function Get: iModelDAOEntity<TModelEntityCadCliente>; overload;
-    function Insert: iModelDAOEntity<TModelEntityCadCliente>;
-    function This: TModelEntityCadCliente;
-    function Update: iModelDAOEntity<TModelEntityCadCliente>;
-    function GetbyId(AValue: integer): iModelDAOEntity<TModelEntityCadCliente>;
+    class function New: iModelDAOEntity<TModelEntityCliente>;
+    function Delete: iModelDAOEntity<TModelEntityCliente>;
+    function DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityCliente>;
+    function Get: iModelDAOEntity<TModelEntityCliente>; overload;
+    function Insert: iModelDAOEntity<TModelEntityCliente>;
+    function This: TModelEntityCliente;
+    function Update: iModelDAOEntity<TModelEntityCliente>;
+    function GetbyId(AValue: integer): iModelDAOEntity<TModelEntityCliente>;
     function GetDataSet: TDataSet;
-    function Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCadCliente>; overload;
+    function Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCliente>; overload;
   end;
 
 implementation
 
 uses System.SysUtils;
 
-procedure TModelDAOCadCliente.AfterScroll(DataSet: TDataSet);
+procedure TModelDAOCliente.AfterScroll(DataSet: TDataSet);
 begin
 
 end;
 
-constructor TModelDAOCadCliente.Create;
+constructor TModelDAOCliente.Create;
 begin
-  FEntity := TModelEntityCadCliente.Create(Self);
+  FEntity := TModelEntityCliente.Create(Self);
   FQuery := TModelResourceQueryIBX.New;
   FQuery.DataSet.AfterScroll := AfterScroll;
 end;
 
-function TModelDAOCadCliente.DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityCadCliente>;
+function TModelDAOCliente.DataSet(AValue: TDataSource): iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
   FDataSource := AValue;
   FDataSource.DataSet := FQuery.DataSet;
 end;
 
-function TModelDAOCadCliente.Delete: iModelDAOEntity<TModelEntityCadCliente>;
+function TModelDAOCliente.Delete: iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
   try
@@ -70,13 +70,13 @@ begin
   end;
 end;
 
-destructor TModelDAOCadCliente.Destroy;
+destructor TModelDAOCliente.Destroy;
 begin
   FEntity.Free;
   inherited;
 end;
 
-function TModelDAOCadCliente.Get: iModelDAOEntity<TModelEntityCadCliente>;
+function TModelDAOCliente.Get: iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
   try
@@ -91,12 +91,12 @@ begin
   end;
 end;
 
-function TModelDAOCadCliente.Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCadCliente>;
+function TModelDAOCliente.Get(AFieldsWhere: TDictionary<string, Variant>): iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
 end;
 
-function TModelDAOCadCliente.GetbyId(AValue: integer): iModelDAOEntity<TModelEntityCadCliente>;
+function TModelDAOCliente.GetbyId(AValue: integer): iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
   try
@@ -112,20 +112,19 @@ begin
   end;
 end;
 
-function TModelDAOCadCliente.GetDataSet: TDataSet;
+function TModelDAOCliente.GetDataSet: TDataSet;
 begin
   Result := FQuery.DataSet;
 end;
 
-function TModelDAOCadCliente.Insert: iModelDAOEntity<TModelEntityCadCliente>;
+function TModelDAOCliente.Insert: iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
   try
     FQuery.active(False)
       .sqlClear
       .sqlAdd('insert into CLIENTE (IDCLIENTE, NM_FANTASIA, RAZAO_SOCIAL, CNPJ, ENDERECO, TELEFONE)')
-      .sqlAdd('values (:IDCLIENTE, :NM_FANTASIA, :RAZAO_SOCIAL, :CNPJ, :ENDERECO, :TELEFONE)')
-      .addParam('IDCLIENTE', FEntity.IDCLIENTE)
+      .sqlAdd('values ((select coalesce(max(IDCLIENTE),0)+1 from CLIENTE), :NM_FANTASIA, :RAZAO_SOCIAL, :CNPJ, :ENDERECO, :TELEFONE)')
       .addParam('NM_FANTASIA', FEntity.NM_FANTASIA)
       .addParam('RAZAO_SOCIAL', FEntity.RAZAO_SOCIAL)
       .addParam('CNPJ', FEntity.CNPJ)
@@ -139,17 +138,17 @@ begin
 
 end;
 
-class function TModelDAOCadCliente.New: iModelDAOEntity<TModelEntityCadCliente>;
+class function TModelDAOCliente.New: iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self.Create;
 end;
 
-function TModelDAOCadCliente.This: TModelEntityCadCliente;
+function TModelDAOCliente.This: TModelEntityCliente;
 begin
   Result := FEntity;
 end;
 
-function TModelDAOCadCliente.Update: iModelDAOEntity<TModelEntityCadCliente>;
+function TModelDAOCliente.Update: iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
   try

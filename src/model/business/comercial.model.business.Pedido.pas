@@ -22,6 +22,7 @@ type
     destructor Destroy; override;
     class function New: iModelBusinessPedido;
     function Novo(aIdPedido, aIdCliente: Integer): iModelBusinessPedido;
+    function Get: iModelBusinessPedido;
     function Abrir(aIdPedido: Integer): iModelBusinessPedido;
     function AdicionarItem(aIdProduto: Integer; aDescricao: string; aValor: Double; aQuantidade: Double): iModelBusinessPedido;
     function Finalizar: iModelBusinessPedido;
@@ -84,6 +85,15 @@ begin
     on E: Exception do
       raise Exception.Create(E.Message);
   end;
+end;
+
+function TModelBusinessPedido.Get: iModelBusinessPedido;
+begin
+  Result := Self;
+//  FQueryRead.active(False)
+//    .sqlClear
+//    .sqlAdd('select * from CLIENTE')
+//    .Open;
 end;
 
 function TModelBusinessPedido.LinkDataSourceItens(aDataSource: TDataSource): iModelBusinessPedido;

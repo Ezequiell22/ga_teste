@@ -6,15 +6,14 @@ uses
   Data.DB,
   comercial.model.business.interfaces,
   comercial.model.resource.interfaces,
-  comercial.model.resource.impl.queryIBX;
+  comercial.model.resource.impl.queryIBX,
+  comercial.model.DAO.interfaces,
+  comercial.model.entity.Produto;
 
 type
   TModelBusinessProduto = class(TInterfacedObject, iModelBusinessProduto)
   private
-
-    FQuery: iQuery;
-    FLookup: iQuery;
-    FDataSource: TDataSource;
+    FDAOProduto: iModelDAOEntity<TModelEntityProduto>;
   public
     constructor Create;
     class function New: iModelBusinessProduto;
@@ -28,12 +27,11 @@ type
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, comercial.model.DAO.Produto;
 
 constructor TModelBusinessProduto.Create;
 begin
-  FQuery := TModelResourceQueryIBX.new;
-  FLookup := TModelResourceQueryIBX.new;
+  FDAOProduto := TmodelDaoProduto.New;
 end;
 
 class function TModelBusinessProduto.New: iModelBusinessProduto;
@@ -44,64 +42,54 @@ end;
 function TModelBusinessProduto.Bind(aDataSource: TDataSource): iModelBusinessProduto;
 begin
   Result := Self;
-  FDataSource := aDataSource;
-  FDataSource.DataSet := FQuery.DataSet;
+  FDAOProduto.DataSet(aDataSource)
 end;
 
 function TModelBusinessProduto.Get: iModelBusinessProduto;
 begin
   Result := Self;
-  FQuery.active(False)
-    .sqlClear
-    .sqlAdd('select * from PRODUTO')
-    .Open;
+  FDAOProduto.Get
 end;
 
 function TModelBusinessProduto.GetById(aId: Integer): iModelBusinessProduto;
 begin
   Result := Self;
-  FQuery.active(False)
-    .sqlClear
-    .sqlAdd('select * from PRODUTO where IDPRODUTO = :IDPRODUTO')
-    .addParam('IDPRODUTO', aId)
-    .Open;
+  FDAOProduto.GetbyId(aId)
 end;
 
 function TModelBusinessProduto.Salvar(aDescricao, aMarca: string; aPreco: Double): iModelBusinessProduto;
 begin
   Result := Self;
-  FQuery.active(False)
-    .sqlClear
-    .sqlAdd('insert into PRODUTO (IDPRODUTO, DESCRICAO, MARCA, PRECO)')
-    .sqlAdd('values ((select coalesce(max(IDPRODUTO),0)+1 from PRODUTO), :DESCRICAO, :MARCA, :PRECO)')
-    .addParam('DESCRICAO', aDescricao)
-    .addParam('MARCA', aMarca)
-    .addParam('PRECO', aPreco)
-    .execSql(True);
+  FDAOProduto
+    .This
+      .DESCRICAO(aDescricao)
+      .MARCA(aMarca)
+      .PRECO(aPreco)
+      .&End
+    .Insert
 end;
 
 function TModelBusinessProduto.Editar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iModelBusinessProduto;
 begin
   Result := Self;
-  FQuery.active(False)
-    .sqlClear
-    .sqlAdd('update PRODUTO set DESCRICAO = :DESCRICAO, MARCA = :MARCA, PRECO = :PRECO')
-    .sqlAdd('where IDPRODUTO = :IDPRODUTO')
-    .addParam('IDPRODUTO', aId)
-    .addParam('DESCRICAO', aDescricao)
-    .addParam('MARCA', aMarca)
-    .addParam('PRECO', aPreco)
-    .execSql(True);
+  FDAOProduto
+      .This
+        .IDPRODUTO(aId)
+        .DESCRICAO(aDescricao)
+        .MARCA(aMarca)
+        .PRECO(aPreco)
+        .&End
+      .Update
 end;
 
 function TModelBusinessProduto.Excluir(aId: Integer): iModelBusinessProduto;
 begin
   Result := Self;
-  FQuery.active(False)
-    .sqlClear
-    .sqlAdd('delete from PRODUTO where IDPRODUTO = :IDPRODUTO')
-    .addParam('IDPRODUTO', aId)
-    .execSql(True);
+   FDAOProduto
+        .This
+          .IDPRODUTO(aId)
+          .&End
+        .Delete
 
 end;
 

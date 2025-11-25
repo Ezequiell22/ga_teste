@@ -22,16 +22,12 @@ uses
 
 type
   TfrmIndex = class(Tform)
-    StatusBar1: TStatusBar;
-    MainMenu1: TMainMenu;
-    MenuCadastros: TMenuItem;
-    MenuClientes: TMenuItem;
-    MenuProdutos: TMenuItem;
-    MenuPedidos: TMenuItem;
-    MenuRelatorio: TMenuItem;
-    procedure MenuClientesClick(Sender: TObject);
-    procedure MenuProdutosClick(Sender: TObject);
-    procedure MenuPedidosClick(Sender: TObject);
+    ButtonClientes: TButton;
+    ButtonProdutos: TButton;
+    ButtonPedidos: TButton;
+    procedure ButtonProdutosClick(Sender: TObject);
+    procedure ButtonClientesClick(Sender: TObject);
+    procedure ButtonPedidosClick(Sender: TObject);
 
   private
     Fcontroller: iController;
@@ -46,18 +42,20 @@ implementation
 {$R *.dfm}
 
 uses
-  System.UITypes, comercial.controller,
-  comercial.view.Cliente,
-  comercial.view.Produto,
-  comercial.view.Pedido,
+  System.UITypes,
   Data.DB,
   Vcl.Grids,
   Vcl.DBGrids,
-  comercial.view.ListagemCliente;
+  comercial.controller,
+  comercial.view.Cliente,
+  comercial.view.Produto,
+  comercial.view.Pedido,
+  comercial.view.ListagemCliente,
+  comercial.view.ListagemProduto,
+  comercial.view.ListagemPedido;
 
-procedure TfrmIndex.MenuClientesClick(Sender: TObject);
+procedure TfrmIndex.ButtonClientesClick(Sender: TObject);
 begin
-
   with TfrmListagemCliente.Create(self) do
     try
       ShowModal;
@@ -66,9 +64,9 @@ begin
     end;
 end;
 
-procedure TfrmIndex.MenuPedidosClick(Sender: TObject);
+procedure TfrmIndex.ButtonPedidosClick(Sender: TObject);
 begin
-  with TfrmPedido.Create(self) do
+  with TfrmListagemPedido.Create(self) do
     try
       ShowModal;
     finally
@@ -76,10 +74,9 @@ begin
     end;
 end;
 
-procedure TfrmIndex.MenuProdutosClick(Sender: TObject);
+procedure TfrmIndex.ButtonProdutosClick(Sender: TObject);
 begin
-  inherited;
-  with TfrmProduto.Create(self) do
+  with TfrmListagemProduto.Create(self) do
     try
       ShowModal;
     finally

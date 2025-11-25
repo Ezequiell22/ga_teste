@@ -40,10 +40,11 @@ object frmListagemCliente: TfrmListagemCliente
     OnClick = btnEditarClick
   end
   object DBGrid1: TDBGrid
-    Left = 24
+    Left = 0
     Top = 49
-    Width = 576
-    Height = 120
+    Width = 624
+    Height = 200
+    Align = alBottom
     TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -53,6 +54,6 @@ object frmListagemCliente: TfrmListagemCliente
   end
   object DataSource1: TDataSource
     Left = 96
-    Top = 208
+    Top = 144
   end
 end

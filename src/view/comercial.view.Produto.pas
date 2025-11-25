@@ -2,28 +2,29 @@ unit comercial.view.Produto;
 
 interface
 
-uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.StdCtrls, Vcl.DBGrids, Data.DB,
+uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.StdCtrls, Vcl.DBGrids,
+  Data.DB,
   comercial.controller,
   comercial.controller.interfaces, Vcl.Controls, Vcl.Grids;
 
 type
   TfrmProduto = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    FDS: TDataSource;
+    procedure FormShow(Sender: TObject);
   published
     FController: iController;
-    FDS: TDataSource;
     edtId: TEdit;
     edtDescricao: TEdit;
     edtMarca: TEdit;
     edtPreco: TEdit;
-    btnNovo: TButton;
     btnSalvar: TButton;
-    btnEditar: TButton;
-    btnExcluir: TButton;
-    Grid: TDBGrid;
-    procedure BtnNovoClick(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
-    procedure BtnEditarClick(Sender: TObject);
-    procedure BtnExcluirClick(Sender: TObject);
+  private
+    procedure LoadData;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -39,8 +40,6 @@ uses
 constructor TfrmProduto.Create(AOwner: TComponent);
 begin
   inherited;
-  FController := TController.New;
-  FController.business.Produto.Bind(FDS).Get;
 end;
 
 destructor TfrmProduto.Destroy;
@@ -48,39 +47,59 @@ begin
   inherited;
 end;
 
-function ValidateProdutoInputs(AOwner: TfrmProduto): Boolean;
-var P: Double;
+procedure TfrmProduto.FormShow(Sender: TObject);
 begin
-  Result := False;
-  if Trim(AOwner.edtDescricao.Text) = '' then begin ShowMessage('Descricao obrigatoria'); Exit; end;
-  P := StrToFloatDef(AOwner.edtPreco.Text, -1);
-  if P < 0 then begin ShowMessage('Preco deve ser numero maior ou igual a zero'); Exit; end;
-  Result := True;
+  FController.business.Produto.GetById(strTointdef(edtId.Text, 0));
+  LoadData
 end;
 
-procedure TfrmProduto.BtnNovoClick(Sender: TObject);
+procedure TfrmProduto.LoadData;
 begin
-  edtId.Text := '';
-  edtDescricao.Text := '';
-  edtMarca.Text := '';
-  edtPreco.Text := '';
+  if not FDS.DataSet.Active then
+    exit;
+
+  edtId.Text := FDS.DataSet.FieldByName('IDProduto').AsString;
+  edtDescricao.Text := FDS.DataSet.FieldByName('DESCRICAO').AsString;
+  edtMarca.Text := FDS.DataSet.FieldByName('MARCA').AsString;
+  edtPreco.Text := FDS.DataSet.FieldByName('PRECO').AsString;
+
+end;
+
+function ValidateProdutoInputs(AOwner: TfrmProduto): Boolean;
+var
+  P: Double;
+begin
+  Result := False;
+  if Trim(AOwner.edtDescricao.Text) = '' then
+  begin
+    ShowMessage('Descricao obrigatoria');
+    exit;
+  end;
+  P := StrToFloatDef(AOwner.edtPreco.Text, -1);
+  if P < 0 then
+  begin
+    ShowMessage('Preco deve ser numero maior ou igual a zero');
+    exit;
+  end;
+  Result := True;
 end;
 
 procedure TfrmProduto.BtnSalvarClick(Sender: TObject);
 begin
-  if not ValidateProdutoInputs(Self) then Exit;
-  FController.business.Produto.Salvar(edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
-end;
+  if not ValidateProdutoInputs(Self) then
+    exit;
 
-procedure TfrmProduto.BtnEditarClick(Sender: TObject);
-begin
-  if not ValidateProdutoInputs(Self) then Exit;
-  FController.business.Produto.Editar(FDS.DataSet.FieldByName('IDPRODUTO').AsInteger, edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
-end;
+  if Trim(edtId.Text) = EmptyStr then
+  begin
+    FController.business.Produto.Salvar(edtDescricao.Text, edtMarca.Text,
+      StrToFloatDef(edtPreco.Text, 0));
 
-procedure TfrmProduto.BtnExcluirClick(Sender: TObject);
-begin
-  FController.business.Produto.Excluir(FDS.DataSet.FieldByName('IDPRODUTO').AsInteger);
+  end
+  else
+    FController.business.Produto.Editar(FDS.DataSet.FieldByName('IDPRODUTO')
+      .AsInteger, edtDescricao.Text, edtMarca.Text,
+      StrToFloatDef(edtPreco.Text, 0));
+  Self.close;
 end;
 
 end.

@@ -1,9 +1,5 @@
 ﻿unit comercial.model.resource.impl.queryIBX;
 
-{ arquivo da classe de query do firedac, este arquivo pode ser replicado
-  e feito a adaptada��o para outro componente e por sua vez chamado sem depedencia do
-  firedac em outros locais...}
-
 interface
 
 uses
@@ -136,15 +132,7 @@ begin
     FQuery.Transaction.StartTransaction
   else
   begin
-    try
       FQuery.Transaction.CommitRetaining;
-//      FQuery.Transaction.StartTransaction;
-    except
-      on E: Exception do
-      begin
-        // se falhar o CommitRetaining, tenta continuar com transação atual
-      end;
-    end;
   end;
   FQuery.open;
 end;

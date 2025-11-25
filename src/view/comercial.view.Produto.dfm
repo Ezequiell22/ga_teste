@@ -2,7 +2,7 @@ object frmProduto: TfrmProduto
   Left = 0
   Top = 0
   Caption = 'Produtos'
-  ClientHeight = 471
+  ClientHeight = 71
   ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,87 +11,75 @@ object frmProduto: TfrmProduto
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
+  OnShow = FormShow
   TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 13
+    Width = 11
+    Height = 13
+    Caption = 'ID'
+  end
+  object Label2: TLabel
+    Left = 96
+    Top = 13
+    Width = 46
+    Height = 13
+    Caption = 'Descri'#231#227'o'
+  end
+  object Label3: TLabel
+    Left = 402
+    Top = 13
+    Width = 29
+    Height = 13
+    Caption = 'Marca'
+  end
+  object Label4: TLabel
+    Left = 586
+    Top = 13
+    Width = 27
+    Height = 13
+    Caption = 'Pre'#231'o'
+  end
   object edtId: TEdit
     Left = 8
-    Top = 8
+    Top = 32
     Width = 80
     Height = 21
     TabOrder = 0
   end
   object edtDescricao: TEdit
     Left = 96
-    Top = 8
+    Top = 32
     Width = 300
     Height = 21
     TabOrder = 1
   end
   object edtMarca: TEdit
     Left = 400
-    Top = 8
+    Top = 32
     Width = 180
     Height = 21
     TabOrder = 2
   end
   object edtPreco: TEdit
     Left = 586
-    Top = 8
+    Top = 32
     Width = 100
     Height = 21
     TabOrder = 3
   end
-  object btnNovo: TButton
-    Left = 8
-    Top = 35
-    Width = 75
-    Height = 25
-    Caption = 'Novo'
-    TabOrder = 4
-    OnClick = BtnNovoClick
-  end
   object btnSalvar: TButton
-    Left = 88
-    Top = 35
+    Left = 717
+    Top = 30
     Width = 75
     Height = 25
     Caption = 'Salvar'
-    TabOrder = 5
+    TabOrder = 4
     OnClick = BtnSalvarClick
   end
-  object btnEditar: TButton
-    Left = 168
-    Top = 35
-    Width = 75
-    Height = 25
-    Caption = 'Editar'
-    TabOrder = 6
-    OnClick = BtnEditarClick
-  end
-  object btnExcluir: TButton
-    Left = 248
-    Top = 35
-    Width = 75
-    Height = 25
-    Caption = 'Excluir'
-    TabOrder = 7
-    OnClick = BtnExcluirClick
-  end
-  object Grid: TDBGrid
-    Left = 0
-    Top = 71
-    Width = 800
-    Height = 400
-    Align = alBottom
-    DataSource = FDS
-    TabOrder = 8
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-  end
   object FDS: TDataSource
-    Left = 16
-    Top = 560
+    Left = 512
+    Top = 8
   end
 end

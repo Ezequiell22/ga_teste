@@ -11,10 +11,10 @@ uses
   comercial.model.business.interfaces in 'src\model\business\comercial.model.business.interfaces.pas',
   comercial.model.resource.interfaces in 'src\model\resource\comercial.model.resource.interfaces.pas',
   comercial.model.db.migrations in 'src\model\db\comercial.model.db.migrations.pas',
-  comercial.model.entity.cadCliente in 'src\model\entity\comercial.model.entity.cadCliente.pas',
-  comercial.model.entity.cadProduto in 'src\model\entity\comercial.model.entity.cadProduto.pas',
-  comercial.model.DAO.CadCliente in 'src\model\DAO\comercial.model.DAO.CadCliente.pas',
-  comercial.model.DAO.CadProduto in 'src\model\DAO\comercial.model.DAO.CadProduto.pas',
+  comercial.model.entity.Cliente in 'src\model\entity\comercial.model.entity.Cliente.pas',
+  comercial.model.entity.Produto in 'src\model\entity\comercial.model.entity.Produto.pas',
+  comercial.model.DAO.Cliente in 'src\model\DAO\comercial.model.DAO.Cliente.pas',
+  comercial.model.DAO.Produto in 'src\model\DAO\comercial.model.DAO.Produto.pas',
   comercial.model.business.Pedido in 'src\model\business\comercial.model.business.Pedido.pas',
   comercial.model.business.RelatorioProdutos in 'src\model\business\comercial.model.business.RelatorioProdutos.pas',
   comercial.view.Cliente in 'src\view\comercial.view.Cliente.pas' {TfrmCliente},
@@ -27,7 +27,9 @@ uses
   comercial.model.business.Produto in 'src\model\business\comercial.model.business.Produto.pas',
   comercial.model.resource.impl.conexaoIBX in 'src\model\resource\impl\comercial.model.resource.impl.conexaoIBX.pas',
   comercial.model.resource.impl.factory in 'src\model\resource\impl\comercial.model.resource.impl.factory.pas',
-  comercial.model.resource.impl.queryIBX in 'src\model\resource\impl\comercial.model.resource.impl.queryIBX.pas';
+  comercial.model.resource.impl.queryIBX in 'src\model\resource\impl\comercial.model.resource.impl.queryIBX.pas',
+  comercial.view.ListagemProduto in 'src\view\comercial.view.ListagemProduto.pas' {frmListagemProduto},
+  comercial.view.ListagemPedido in 'src\view\comercial.view.ListagemPedido.pas' {frmListagemPedido};
 
 {$R *.res}
 
@@ -43,6 +45,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmIndex, frmIndex);
+  Application.CreateForm(TfrmListagemPedido, frmListagemPedido);
   Application.Run;
 
 end.
