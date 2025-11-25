@@ -1,4 +1,4 @@
-unit comercial.controller.entity;
+﻿unit comercial.controller.entity;
 
 interface
 
@@ -42,7 +42,6 @@ begin
   inherited;
 end;
 
-// Removidas classes de controller específicas; controller.entity apenas instancia modelos.
 
 function TControllerEntity.cadCliente: iModelDAOEntity<TModelEntityCadCliente>;
 begin
@@ -57,8 +56,6 @@ begin
     FcadProdutoDAO := TModelDAOCadProduto.New;
   result := FcadProdutoDAO;
 end;
-
-// Removida lógica; o controller.entity apenas retorna as instâncias dos modelos.
 
 class function TControllerEntity.New: iControllerEntity;
 begin

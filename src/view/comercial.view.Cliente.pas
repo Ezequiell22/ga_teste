@@ -22,10 +22,10 @@ type
     edtCnpj: TEdit;
     edtEndereco: TEdit;
     edtTelefone: TEdit;
+    dts2: TDataSource;
     procedure FormShow(Sender: TObject);
   published
     FController: iController;
-    FDS: TDataSource;
     btnSalvar: TButton;
     procedure BtnSalvarClick(Sender: TObject);
   private
@@ -57,7 +57,7 @@ constructor TfrmCliente.Create(AOwner: TComponent);
 begin
   inherited;
   FController := TController.New;
-  FController.business.Cliente.Bind(FDS).Get;
+  FController.business.Cliente.Bind(dts2);
 end;
 
 destructor TfrmCliente.Destroy;
@@ -74,15 +74,15 @@ end;
 procedure TfrmCliente.LoadData;
 begin
 
-  if not FDS.DataSet.Active then
+  if not dts2.DataSet.Active then
     exit;
 
-  edtId.Text := FDS.DataSet.FieldByName('IDCLIENTE').AsString;
-  edtFantasia.Text := FDS.DataSet.FieldByName('NM_FANTASIA').AsString;
-  edtRazao.Text := FDS.DataSet.FieldByName('RAZAO_SOCIAL').AsString;
-  edtCnpj.Text := FDS.DataSet.FieldByName('CNPJ').AsString;
-  edtEndereco.Text := FDS.DataSet.FieldByName('ENDERECO').AsString;
-  edtTelefone.Text := FDS.DataSet.FieldByName('TELEFONE').AsString;
+  edtId.Text := dts2.DataSet.FieldByName('IDCLIENTE').AsString;
+  edtFantasia.Text := dts2.DataSet.FieldByName('NM_FANTASIA').AsString;
+  edtRazao.Text := dts2.DataSet.FieldByName('RAZAO_SOCIAL').AsString;
+  edtCnpj.Text := dts2.DataSet.FieldByName('CNPJ').AsString;
+  edtEndereco.Text := dts2.DataSet.FieldByName('ENDERECO').AsString;
+  edtTelefone.Text := dts2.DataSet.FieldByName('TELEFONE').AsString;
 
 end;
 
@@ -122,7 +122,7 @@ begin
       edtCnpj.Text, edtEndereco.Text, edtTelefone.Text);
   end
   else
-    FController.business.Cliente.Editar(FDS.DataSet.FieldByName('IDCLIENTE')
+    FController.business.Cliente.Editar(dts2.DataSet.FieldByName('IDCLIENTE')
       .AsInteger, edtFantasia.Text, edtRazao.Text, edtCnpj.Text,
       edtEndereco.Text, edtTelefone.Text);
 

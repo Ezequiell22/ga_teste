@@ -11,12 +11,12 @@ uses
 type
   TModelBusinessProduto = class(TInterfacedObject, iModelBusinessProduto)
   private
-    FFactory: iQueryFactory;
+
     FQuery: iQuery;
     FLookup: iQuery;
     FDataSource: TDataSource;
   public
-    constructor Create(aFactory: iQueryFactory);
+    constructor Create;
     class function New: iModelBusinessProduto;
     function Bind(aDataSource: TDataSource): iModelBusinessProduto;
     function Get: iModelBusinessProduto;
@@ -30,16 +30,15 @@ implementation
 
 uses System.SysUtils;
 
-constructor TModelBusinessProduto.Create(aFactory: iQueryFactory);
+constructor TModelBusinessProduto.Create;
 begin
-  FFactory := aFactory;
-  FQuery := FFactory.NewQuery;
-  FLookup := FFactory.NewQuery;
+  FQuery := TModelResourceQueryIBX.new;
+  FLookup := TModelResourceQueryIBX.new;
 end;
 
 class function TModelBusinessProduto.New: iModelBusinessProduto;
 begin
-  Result := Self.Create(TQueryFactoryIBX.New);
+  Result := Self.Create();
 end;
 
 function TModelBusinessProduto.Bind(aDataSource: TDataSource): iModelBusinessProduto;
@@ -79,7 +78,6 @@ begin
     .addParam('MARCA', aMarca)
     .addParam('PRECO', aPreco)
     .execSql(True);
-  Get;
 end;
 
 function TModelBusinessProduto.Editar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iModelBusinessProduto;
@@ -94,7 +92,6 @@ begin
     .addParam('MARCA', aMarca)
     .addParam('PRECO', aPreco)
     .execSql(True);
-  Get;
 end;
 
 function TModelBusinessProduto.Excluir(aId: Integer): iModelBusinessProduto;
@@ -105,7 +102,7 @@ begin
     .sqlAdd('delete from PRODUTO where IDPRODUTO = :IDPRODUTO')
     .addParam('IDPRODUTO', aId)
     .execSql(True);
-  Get;
+
 end;
 
 end.

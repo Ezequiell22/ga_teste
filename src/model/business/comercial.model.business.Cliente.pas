@@ -11,12 +11,10 @@ uses
 type
   TModelBusinessCliente = class(TInterfacedObject, iModelBusinessCliente)
   private
-    FFactory: iQueryFactory;
     FQuery: iQuery;
-    FLookup: iQuery;
     FDataSource: TDataSource;
   public
-    constructor Create(aFactory: iQueryFactory);
+    constructor Create;
     class function New: iModelBusinessCliente;
     function Bind(aDataSource: TDataSource): iModelBusinessCliente;
     function Get: iModelBusinessCliente;
@@ -30,16 +28,14 @@ implementation
 
 uses System.SysUtils;
 
-constructor TModelBusinessCliente.Create(aFactory: iQueryFactory);
+constructor TModelBusinessCliente.Create;
 begin
-  FFactory := aFactory;
-  FQuery := FFactory.NewQuery;
-  FLookup := FFactory.NewQuery;
+  FQuery := TModelResourceQueryIBX.New;
 end;
 
 class function TModelBusinessCliente.New: iModelBusinessCliente;
 begin
-  Result := Self.Create(TQueryFactoryIBX.New);
+  Result := Self.Create;
 end;
 
 function TModelBusinessCliente.Bind(aDataSource: TDataSource): iModelBusinessCliente;
@@ -82,7 +78,7 @@ begin
     .addParam('ENDERECO', aEndereco)
     .addParam('TELEFONE', aTelefone)
     .execSql(True);
-  Get;
+
 end;
 
 function TModelBusinessCliente.Editar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iModelBusinessCliente;
@@ -99,7 +95,7 @@ begin
     .addParam('ENDERECO', aEndereco)
     .addParam('TELEFONE', aTelefone)
     .execSql(True);
-  Get;
+
 end;
 
 function TModelBusinessCliente.Excluir(aId: Integer): iModelBusinessCliente;
@@ -110,7 +106,6 @@ begin
     .sqlAdd('delete from CLIENTE where IDCLIENTE = :IDCLIENTE')
     .addParam('IDCLIENTE', aId)
     .execSql(True);
-  Get;
 end;
 
 end.

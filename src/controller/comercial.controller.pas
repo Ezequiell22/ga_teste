@@ -8,20 +8,17 @@ uses
 type
   TController = class(TInterfacedobject, iController)
   private
-    FEntity: iControllerEntity;
     FBusiness : iControllerBusiness;
   public
     constructor create;
     destructor destroy; override;
     class function New: iController;
-    function entity: iControllerEntity;
     function business : iControllerBusiness;
   end;
 
 implementation
 
 uses
-  comercial.controller.entity,
   comercial.controller.business;
 
 { TController }
@@ -45,13 +42,6 @@ begin
   inherited;
 end;
 
-function TController.entity: iControllerEntity;
-begin
-  if not Assigned(FEntity) then
-    FEntity := TcontrollerEntity.New;
-
-  result := FEntity;
-end;
 
 class function TController.New: iController;
 begin

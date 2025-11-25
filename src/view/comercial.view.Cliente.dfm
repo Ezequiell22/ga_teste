@@ -110,4 +110,8 @@ object frmCliente: TfrmCliente
     Left = 16
     Top = 560
   end
+  object dts2: TDataSource
+    Left = 584
+    Top = 24
+  end
 end

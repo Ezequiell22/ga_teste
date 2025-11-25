@@ -130,11 +130,9 @@
         </DCCReference>
         <DCCReference Include="src\controller\comercial.controller.interfaces.pas"/>
         <DCCReference Include="src\controller\comercial.controller.pas"/>
-        <DCCReference Include="src\controller\comercial.controller.entity.pas"/>
         <DCCReference Include="src\controller\comercial.controller.business.pas"/>
         <DCCReference Include="src\model\business\comercial.model.business.interfaces.pas"/>
         <DCCReference Include="src\model\resource\comercial.model.resource.interfaces.pas"/>
-        <DCCReference Include="src\model\resource\impl\comercial.model.resource.impl.queryIBX.pas"/>
         <DCCReference Include="src\model\db\comercial.model.db.migrations.pas"/>
         <DCCReference Include="src\model\entity\comercial.model.entity.cadCliente.pas"/>
         <DCCReference Include="src\model\entity\comercial.model.entity.cadProduto.pas"/>
@@ -157,6 +155,11 @@
             <Form>frmListagemCliente</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="src\model\business\comercial.model.business.Cliente.pas"/>
+        <DCCReference Include="src\model\business\comercial.model.business.Produto.pas"/>
+        <DCCReference Include="src\model\resource\impl\comercial.model.resource.impl.conexaoIBX.pas"/>
+        <DCCReference Include="src\model\resource\impl\comercial.model.resource.impl.factory.pas"/>
+        <DCCReference Include="src\model\resource\impl\comercial.model.resource.impl.queryIBX.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

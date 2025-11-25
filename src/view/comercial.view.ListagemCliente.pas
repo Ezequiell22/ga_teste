@@ -10,11 +10,11 @@ uses
 
 type
   TfrmListagemCliente = class(TForm)
-    Grid: TDBGrid;
     btnNovo: TButton;
     btnExcluir: TButton;
     btnEditar: TButton;
-    FDS: TDataSource;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
@@ -37,43 +37,50 @@ uses comercial.view.Cliente, comercial.controller;
 
 procedure TfrmListagemCliente.btnExcluirClick(Sender: TObject);
 begin
-  FController.business.Cliente.Excluir(FDS.DataSet.FieldByName('IDCLIENTE')
+  FController.business.Cliente.Excluir(DataSource1.DataSet.FieldByName('IDCLIENTE')
     .AsInteger).Get;
 
 end;
 
 procedure TfrmListagemCliente.btnNovoClick(Sender: TObject);
+var frm : TfrmCliente;
 begin
-  with TfrmCliente.Create(self) do
-    try
-      Caption := 'Novo cliente';
-      edtid.ReadOnly := true;
-      ShowModal;
-    finally
-      Free;
-    end;
+  frm := TfrmCliente.Create(self);
+
+  try
+    frm.Caption := 'Novo cliente';
+    frm.edtid.text := '';
+    frm.edtid.ReadOnly := true;
+    frm.ShowModal;
+  finally
+    frm.Free;
+  end;
+
   FController.business.Cliente.Get;
 end;
 
 procedure TfrmListagemCliente.btnEditarClick(Sender: TObject);
+var frm : TfrmCliente;
 begin
-  with TfrmCliente.Create(self) do
-    try
-      Caption := 'Editar cliente';
-      edtid.text := FDS.DataSet.FieldByName('IDCLIENTE').asString;
-      edtid.ReadOnly := true;
-      ShowModal;
-    finally
-      Free;
-    end;
+  frm := TfrmCliente.Create(self);
+
+  try
+    frm.Caption := 'Editar cliente';
+    frm.edtid.text := datasource1.DataSet.FieldByName('IDCLIENTE').asString;
+    frm.edtid.ReadOnly := true;
+    frm.ShowModal;
+  finally
+    frm.Free;
+  end;
+
   FController.business.Cliente.Get;
 end;
 
 procedure TfrmListagemCliente.FormShow(Sender: TObject);
 begin
   FController := TController.New;
-  Grid.DataSource := FDS;
-  FController.business.Cliente.Bind(FDS).Get;
+  dbgrid1.DataSource := datasource1;
+  FController.business.Cliente.Bind(datasource1).Get;
 end;
 
 end.

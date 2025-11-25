@@ -10,25 +10,23 @@ uses
 type
   TDbMigrations = class
   private
-    FFactory: iQueryFactory;
     FExec: iQuery;
     FLookup: iQuery;
     function MetadataExists(aSQL: string): boolean;
     procedure ExecDDL(const aDDL: string);
     function EnsureException: boolean;
   public
-    constructor Create(const aDbPath, aUser, aPassword: string);
+    constructor Create;
     destructor Destroy; override;
     procedure Apply;
   end;
 
 implementation
 
-constructor TDbMigrations.Create(const aDbPath, aUser, aPassword: string);
+constructor TDbMigrations.Create;
 begin
-  FFactory := TQueryFactoryIBX.New;
-  FExec := FFactory.NewQuery;
-  FLookup := FFactory.NewQuery;
+  FExec := TModelResourceQueryIBX.NEw;
+  FLookup := TModelResourceQueryIBX.New;
 end;
 
 destructor TDbMigrations.Destroy;

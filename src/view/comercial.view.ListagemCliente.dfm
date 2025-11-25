@@ -12,26 +12,13 @@ object frmListagemCliente: TfrmListagemCliente
   Font.Style = []
   OnShow = FormShow
   TextHeight = 15
-  object Grid: TDBGrid
-    Left = 0
-    Top = 49
-    Width = 624
-    Height = 200
-    Align = alBottom
-    TabOrder = 0
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -12
-    TitleFont.Name = 'Segoe UI'
-    TitleFont.Style = []
-  end
   object btnNovo: TButton
     Left = 379
     Top = 18
     Width = 75
     Height = 25
     Caption = 'Novo'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = btnNovoClick
   end
   object btnExcluir: TButton
@@ -40,7 +27,7 @@ object frmListagemCliente: TfrmListagemCliente
     Width = 75
     Height = 25
     Caption = 'Excluir'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = btnExcluirClick
   end
   object btnEditar: TButton
@@ -49,11 +36,23 @@ object frmListagemCliente: TfrmListagemCliente
     Width = 75
     Height = 25
     Caption = 'Editar'
-    TabOrder = 3
+    TabOrder = 2
     OnClick = btnEditarClick
   end
-  object FDS: TDataSource
-    Left = 392
-    Top = 176
+  object DBGrid1: TDBGrid
+    Left = 24
+    Top = 49
+    Width = 576
+    Height = 120
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Segoe UI'
+    TitleFont.Style = []
+  end
+  object DataSource1: TDataSource
+    Left = 96
+    Top = 208
   end
 end

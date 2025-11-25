@@ -13,13 +13,12 @@ type
   private
     FQuery: iQuery;
     FQueryItens: iQuery;
-    FQueryLookup: iQuery;
-    FFactory: iQueryFactory;
+    FQueryLookup : iQuery;
     FIdPedido: Integer;
     FIdCliente: Integer;
     FTotal: Double;
   public
-    constructor Create(aFactory: iQueryFactory);
+    constructor Create;
     destructor Destroy; override;
     class function New: iModelBusinessPedido;
     function Novo(aIdPedido, aIdCliente: Integer): iModelBusinessPedido;
@@ -34,12 +33,11 @@ implementation
 
 uses System.SysUtils;
 
-constructor TModelBusinessPedido.Create(aFactory: iQueryFactory);
+constructor TModelBusinessPedido.Create;
 begin
-  FFactory := aFactory;
-  FQuery := FFactory.NewQuery;
-  FQueryItens := FFactory.NewQuery;
-  FQueryLookup := FFactory.NewQuery;
+  FQuery := TModelResourceQueryIBX.New();
+  FQueryItens := TModelResourceQueryIBX.New();
+  FQueryLookup := TModelResourceQueryIBX.New();
 end;
 
 function TModelBusinessPedido.Abrir(aIdPedido: Integer): iModelBusinessPedido;
@@ -102,7 +100,7 @@ end;
 
 class function TModelBusinessPedido.New: iModelBusinessPedido;
 begin
-  Result := Self.Create(TQueryFactoryIBX.New);
+  Result := Self.Create;
 end;
 
 function TModelBusinessPedido.Novo(aIdPedido, aIdCliente: Integer): iModelBusinessPedido;

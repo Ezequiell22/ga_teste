@@ -1,21 +1,26 @@
 unit comercial.model.resource.impl.queryIBX;
 
+{ arquivo da classe de query do firedac, este arquivo pode ser replicado
+  e feito a adaptadação para outro componente e por sua vez chamado sem depedencia do
+  firedac em outros locais...}
+
 interface
 
 uses
   Data.DB,
-  IBX.IBDatabase,
-  IBX.IBQuery,
   System.SysUtils,
-  System.IniFiles,
+  IBX.IBQuery,
+  IBX.IBDatabase,
+  comercial.model.resource.impl.factory,
   comercial.model.resource.interfaces;
 
 type
   TModelResourceQueryIBX = class(TInterfacedObject, iQuery)
   private
     FQuery: TIBQuery;
-    FDatabase: TIBDatabase;
-    FTransaction: TIBTransaction;
+    FConexao : iConexao;
+    FConnection : TIBDatabase;
+    FFDTransaction: TIBTransaction;
   public
     constructor Create;
     destructor Destroy; override;
@@ -23,7 +28,7 @@ type
     function active(aValue: boolean): iQuery;
     function addParam(aParam: string; aValue: Variant): iQuery;
     function DataSet: TDataSet;
-    function execSql(commit: Boolean = True): iQuery;
+    function execSql( commit : Boolean = True): iQuery;
     function open: iQuery;
     function sqlClear: iQuery;
     function sqlAdd(aValue: string): iQuery;
@@ -32,148 +37,109 @@ type
     procedure next;
   end;
 
-  TQueryFactoryIBX = class(TInterfacedObject, iQueryFactory)
-  public
-    constructor Create;
-    class function New: iQueryFactory;
-    function NewQuery: iQuery;
-  end;
-
 implementation
 
 function TModelResourceQueryIBX.active(aValue: boolean): iQuery;
 begin
-  Result := Self;
-  FQuery.Active := aValue;
-end;
-
-constructor TQueryFactoryIBX.Create;
-begin
-end;
-
-class function TQueryFactoryIBX.New: iQueryFactory;
-begin
-  Result := Self.Create;
-end;
-
-function TQueryFactoryIBX.NewQuery: iQuery;
-begin
-  Result := TModelResourceQueryIBX.New;
+  result := Self;
+  FQuery.active := aValue;
 end;
 
 function TModelResourceQueryIBX.addParam(aParam: string; aValue: Variant): iQuery;
 begin
-  Result := Self;
-  FQuery.Params.ParamByName(aParam).Value := aValue;
+  result := Self;
+  FQuery.ParamByName(aParam).Value := aValue;
 end;
 
 constructor TModelResourceQueryIBX.Create;
 begin
-  FDatabase := TIBDatabase.Create(nil);
-  FTransaction := TIBTransaction.Create(nil);
+
   FQuery := TIBQuery.Create(nil);
+  FFDTransaction := TIBTransaction.Create(nil);
 
-  var iniPath := ExtractFilePath(ParamStr(0)) + 'comercial.ini';
-  var ini := TIniFile.Create(iniPath);
-  try
-    var dbPath := ini.ReadString('Database', 'Path', 'C:\testeEmpresa\DADOS.FDB');
-    var dbUser := ini.ReadString('Database', 'User', 'SYSDBA');
-    var dbPass := ini.ReadString('Database', 'Password', 'masterkey');
+  FConexao := TResource.New
+  .Conexao;
+  FConnection := TIBDatabase(FConexao.Connect);
+  FFDTransaction.DefaultDatabase := FConnection;
+  FQuery.Database := FConnection;
+  FQuery.Transaction := FFDTransaction;
 
-    FDatabase.DatabaseName := dbPath;
-    FDatabase.Params.Values['user_name'] := dbUser;
-    FDatabase.Params.Values['password'] := dbPass;
-  finally
-    ini.Free;
-  end;
-
-  FTransaction.DefaultDatabase := FDatabase;
-  FDatabase.DefaultTransaction := FTransaction;
-  FQuery.Database := FDatabase;
-  FQuery.Transaction := FTransaction;
 end;
 
 function TModelResourceQueryIBX.DataSet: TDataSet;
 begin
-  Result := FQuery;
+  result := FQuery;
 end;
 
 destructor TModelResourceQueryIBX.Destroy;
 begin
+
+  FFDTransaction.Free;
   FQuery.Free;
-  FTransaction.Free;
-  FDatabase.Free;
+
   inherited;
 end;
 
 function TModelResourceQueryIBX.eof: boolean;
 begin
-  Result := FQuery.EOF;
+  result := FQuery.eof;
 end;
 
-function TModelResourceQueryIBX.execSql(commit: Boolean = True): iQuery;
+function TModelResourceQueryIBX.execSql( commit : Boolean = True): iQuery;
 begin
-  Result := Self;
+  result := Self;
+
   try
-    if not FDatabase.Connected then
-      FDatabase.Open;
 
-    if not FTransaction.InTransaction then
-      FTransaction.StartTransaction;
+    if not FQuery.Transaction.active then
+      FQuery.Transaction.StartTransaction;
 
-    FQuery.ExecSQL;
+    FQuery.execSql;
 
-    if commit and FTransaction.InTransaction then
-      FTransaction.Commit;
+    if FQuery.Transaction.active then
+      FQuery.Transaction.Commit;
+
   except
-    on E: Exception do
+    on E: exception do
     begin
-      if FTransaction.InTransaction then
-        FTransaction.RollbackRetaining;
-      raise Exception.Create('Erro SQL: ' + FQuery.SQL.Text + ' | ' + E.Message);
+      if FQuery.Transaction.active then
+        FQuery.Transaction.Rollback;
+
+      raise exception.Create(E.Message);
     end;
+
   end;
 end;
 
 function TModelResourceQueryIBX.isEmpty: boolean;
 begin
-  Result := (FQuery.Active) and (FQuery.RecordCount = 0);
+  result := FQuery.isEmpty;
 end;
 
 class function TModelResourceQueryIBX.New: iQuery;
 begin
-  Result := Self.Create;
+  result := Self.Create;
 end;
 
 procedure TModelResourceQueryIBX.next;
 begin
-  FQuery.Next;
+  FQuery.next;
 end;
 
 function TModelResourceQueryIBX.open: iQuery;
 begin
-  if not FDatabase.Connected then
-    FDatabase.Open;
-  try
-    if not FTransaction.InTransaction then
-      FTransaction.StartTransaction;
-    FQuery.Open;
-  except
-    on E: Exception do
-      raise Exception.Create('Erro SQL: ' + FQuery.SQL.Text + ' | ' + E.Message);
-  end;
-  Result := Self;
+  FQuery.open;
 end;
 
 function TModelResourceQueryIBX.sqlAdd(aValue: string): iQuery;
 begin
-  Result := Self;
+  result := Self;
   FQuery.SQL.Add(aValue);
 end;
 
 function TModelResourceQueryIBX.sqlClear: iQuery;
 begin
-  Result := Self;
+  result := Self;
   FQuery.SQL.Clear;
 end;
 
