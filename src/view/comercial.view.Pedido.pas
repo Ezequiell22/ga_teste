@@ -1,4 +1,4 @@
-﻿unit comercial.view.Pedido;
+unit comercial.view.Pedido;
 
 interface
 
@@ -64,8 +64,8 @@ begin
   FController.business.Pedido.LinkDataSourcePedido(DSPedido).LinkDataSourceItens(DSItens);
   DSClientes.DataSet := nil;
   DSProdutos.DataSet := nil;
-  FController.entity.cadCliente.Bind(DSClientes).Get;
-  FController.entity.cadProduto.Bind(DSProdutos).Get;
+  FController.business.Cliente.Bind(DSClientes).Get;
+  FController.business.Produto.Bind(DSProdutos).Get;
   ComboBoxCliente.Items.Clear;
   if Assigned(DSClientes.DataSet) then
   begin
@@ -211,4 +211,3 @@ begin
 end;
 
 end.
-
