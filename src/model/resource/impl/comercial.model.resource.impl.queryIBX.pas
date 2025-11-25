@@ -125,7 +125,7 @@ begin
     FQuery.ExecSQL;
 
     if commit and FTransaction.InTransaction then
-      FTransaction.CommitRetaining;
+      FTransaction.Commit;
   except
     on E: Exception do
     begin

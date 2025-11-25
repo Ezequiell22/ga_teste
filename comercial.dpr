@@ -22,7 +22,9 @@ uses
   comercial.view.Cliente in 'src\view\comercial.view.Cliente.pas' {TfrmCliente},
   comercial.view.Produto in 'src\view\comercial.view.Produto.pas' {TfrmProduto},
   comercial.view.Pedido in 'src\view\comercial.view.Pedido.pas' {TfrmPedido},
-  comercial.model.DAO.interfaces in 'src\model\DAO\comercial.model.DAO.interfaces.pas';
+  comercial.model.DAO.interfaces in 'src\model\DAO\comercial.model.DAO.interfaces.pas',
+  comercial.model.validation in 'src\model\comercial.model.validation.pas',
+  comercial.view.ListagemCliente in 'src\view\comercial.view.ListagemCliente.pas' {frmListagemCliente};
 
 {$R *.res}
 

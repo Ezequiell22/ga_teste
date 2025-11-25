@@ -38,12 +38,7 @@ uses System.SysUtils;
 
 procedure TModelDAOCadCliente.AfterScroll(DataSet: TDataSet);
 begin
-  FEntity.IDCLIENTE(DataSet.FieldByName('IDCLIENTE').AsInteger);
-  FEntity.NM_FANTASIA(DataSet.FieldByName('NM_FANTASIA').AsString);
-  FEntity.RAZAO_SOCIAL(DataSet.FieldByName('RAZAO_SOCIAL').AsString);
-  FEntity.CNPJ(DataSet.FieldByName('CNPJ').AsString);
-  FEntity.ENDERECO(DataSet.FieldByName('ENDERECO').AsString);
-  FEntity.TELEFONE(DataSet.FieldByName('TELEFONE').AsString);
+
 end;
 
 constructor TModelDAOCadCliente.Create;
@@ -141,6 +136,7 @@ begin
     on E: Exception do
       raise Exception.Create(E.Message);
   end;
+
 end;
 
 class function TModelDAOCadCliente.New: iModelDAOEntity<TModelEntityCadCliente>;

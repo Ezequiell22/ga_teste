@@ -39,8 +39,10 @@ type
     function Bind(aDataSource: TDataSource): iControllerCliente;
     function Get: iControllerCliente;
     function GetById(aId: Integer): iControllerCliente;
-    function Salvar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iControllerCliente;
-    function Editar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iControllerCliente;
+    function Salvar(aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string)
+      : iControllerCliente;
+    function Editar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco,
+      aTelefone: string): iControllerCliente;
     function Excluir(aId: Integer): iControllerCliente;
   end;
 
@@ -49,8 +51,10 @@ type
     function Bind(aDataSource: TDataSource): iControllerProduto;
     function Get: iControllerProduto;
     function GetById(aId: Integer): iControllerProduto;
-    function Salvar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
-    function Editar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
+    function Salvar(aDescricao, aMarca: string; aPreco: Double)
+      : iControllerProduto;
+    function Editar(aId: Integer; aDescricao, aMarca: string; aPreco: Double)
+      : iControllerProduto;
     function Excluir(aId: Integer): iControllerProduto;
   end;
 

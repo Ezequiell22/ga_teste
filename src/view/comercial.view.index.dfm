@@ -33,8 +33,8 @@ object frmIndex: TfrmIndex
       end>
   end
   object MainMenu1: TMainMenu
-    Left = 104
-    Top = 40
+    Left = 24
+    Top = 24
     object MenuCadastros: TMenuItem
       Caption = 'Cadastros'
       object MenuClientes: TMenuItem
@@ -48,6 +48,7 @@ object frmIndex: TfrmIndex
     end
     object MenuPedidos: TMenuItem
       Caption = 'Pedidos'
+      OnClick = MenuPedidosClick
     end
     object MenuRelatorio: TMenuItem
       Caption = 'Relatorio Top Produtos'

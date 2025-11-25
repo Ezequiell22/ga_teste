@@ -29,7 +29,7 @@ implementation
 
 uses
   comercial.model.DAO.CadCliente,
-  comercial.model.DAO.CadProduto;
+  comercial.model.DAO.CadProduto, comercial.model.resource.impl.queryIBX;
 
 { TControllerEntity }
 
@@ -53,7 +53,7 @@ type
     function Bind(aDataSource: TDataSource): iControllerCliente;
     function Get: iControllerCliente;
     function GetById(aId: Integer): iControllerCliente;
-    function Salvar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iControllerCliente;
+    function Salvar( aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iControllerCliente;
     function Editar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iControllerCliente;
     function Excluir(aId: Integer): iControllerCliente;
   end;
@@ -66,8 +66,8 @@ type
     function Bind(aDataSource: TDataSource): iControllerProduto;
     function Get: iControllerProduto;
     function GetById(aId: Integer): iControllerProduto;
-    function Salvar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
-    function Editar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
+    function Salvar( aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
+    function Editar(aId: Integer;  aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
     function Excluir(aId: Integer): iControllerProduto;
   end;
 
@@ -114,7 +114,7 @@ begin
     .ENDERECO(aEndereco)
     .TELEFONE(aTelefone);
   FDAO.Update;
-  FDAO.Get;
+
 end;
 
 function TControllerCliente.Excluir(aId: Integer): iControllerCliente;
@@ -122,7 +122,7 @@ begin
   Result := Self;
   FDAO.This.IDCLIENTE(aId);
   FDAO.Delete;
-  FDAO.Get;
+
 end;
 
 function TControllerCliente.Get: iControllerCliente;
@@ -137,17 +137,29 @@ begin
   FDAO.GetbyId(aId);
 end;
 
-function TControllerCliente.Salvar(aId: Integer; aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iControllerCliente;
+function TControllerCliente.Salvar( aFantasia, aRazao, aCnpj, aEndereco, aTelefone: string): iControllerCliente;
+var FQuery: iQuery;
+  newId : integer;
 begin
   Result := Self;
-  FDAO.This.IDCLIENTE(aId)
+
+  FQuery := TQueryFactoryIBX.New.NewQuery;
+
+  FQuery.active(false)
+  .sqlClear
+  .sqlAdd('select (count(idCliente) + 1) idN from cliente')
+  .open;
+
+  newId := FQuery.DataSet.FieldByName('idN').AsInteger;
+
+  FDAO.This.IDCLIENTE(newId)
     .NM_FANTASIA(aFantasia)
     .RAZAO_SOCIAL(aRazao)
     .CNPJ(aCnpj)
     .ENDERECO(aEndereco)
     .TELEFONE(aTelefone);
   FDAO.Insert;
-  FDAO.Get;
+
 end;
 
 constructor TControllerProduto.Create(aDAO: iModelDAOEntity<TModelEntityCadProduto>);
@@ -169,7 +181,7 @@ begin
     .MARCA(aMarca)
     .PRECO(aPreco);
   FDAO.Update;
-  FDAO.Get;
+
 end;
 
 function TControllerProduto.Excluir(aId: Integer): iControllerProduto;
@@ -177,7 +189,7 @@ begin
   Result := Self;
   FDAO.This.IDPRODUTO(aId);
   FDAO.Delete;
-  FDAO.Get;
+
 end;
 
 function TControllerProduto.Get: iControllerProduto;
@@ -192,15 +204,26 @@ begin
   FDAO.GetbyId(aId);
 end;
 
-function TControllerProduto.Salvar(aId: Integer; aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
+function TControllerProduto.Salvar( aDescricao, aMarca: string; aPreco: Double): iControllerProduto;
+var FQuery: iQuery;
+  newId : integer;
 begin
   Result := Self;
-  FDAO.This.IDPRODUTO(aId)
+
+  FQuery := TQueryFactoryIBX.New.NewQuery;
+
+  FQuery.active(false)
+  .sqlClear
+  .sqlAdd('select (count(idProduto) + 1) idN from produto')
+  .open;
+
+  newId := FQuery.DataSet.FieldByName('idN').AsInteger;
+  FDAO.This.IDPRODUTO(newId)
     .DESCRICAO(aDescricao)
     .MARCA(aMarca)
     .PRECO(aPreco);
   FDAO.Insert;
-  FDAO.Get;
+
 end;
 
 class function TControllerEntity.New: iControllerEntity;

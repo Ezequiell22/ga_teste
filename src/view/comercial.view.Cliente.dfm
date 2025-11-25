@@ -2,7 +2,7 @@ object frmCliente: TfrmCliente
   Left = 0
   Top = 0
   Caption = 'Clientes'
-  ClientHeight = 323
+  ClientHeight = 123
   ClientWidth = 719
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +11,7 @@ object frmCliente: TfrmCliente
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
+  OnShow = FormShow
   TextHeight = 13
   object Label1: TLabel
     Left = 8
@@ -104,37 +105,6 @@ object frmCliente: TfrmCliente
     Caption = 'Salvar'
     TabOrder = 6
     OnClick = BtnSalvarClick
-  end
-  object btnEditar: TButton
-    Left = 637
-    Top = 250
-    Width = 75
-    Height = 25
-    Caption = 'Editar'
-    TabOrder = 7
-    OnClick = BtnEditarClick
-  end
-  object btnExcluir: TButton
-    Left = 637
-    Top = 281
-    Width = 75
-    Height = 25
-    Caption = 'Excluir'
-    TabOrder = 8
-    OnClick = BtnExcluirClick
-  end
-  object Grid: TDBGrid
-    Left = 0
-    Top = 113
-    Width = 631
-    Height = 200
-    DataSource = FDS
-    TabOrder = 9
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
   end
   object FDS: TDataSource
     Left = 16

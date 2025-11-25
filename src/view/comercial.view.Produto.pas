@@ -69,7 +69,7 @@ end;
 procedure TfrmProduto.BtnSalvarClick(Sender: TObject);
 begin
   if not ValidateProdutoInputs(Self) then Exit;
-  FController.entity.cadProduto.Salvar(StrToIntDef(edtId.Text, 0), edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
+  FController.entity.cadProduto.Salvar(edtDescricao.Text, edtMarca.Text, StrToFloatDef(edtPreco.Text, 0));
 end;
 
 procedure TfrmProduto.BtnEditarClick(Sender: TObject);

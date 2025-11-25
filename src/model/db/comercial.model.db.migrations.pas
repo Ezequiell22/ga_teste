@@ -3,20 +3,19 @@ unit comercial.model.db.migrations;
 interface
 
 uses
-  IBX.IBDatabase,
-  IBX.IBSQL,
-  System.SysUtils;
+  System.SysUtils,
+  comercial.model.resource.interfaces,
+  comercial.model.resource.impl.queryIBX;
 
 type
   TDbMigrations = class
   private
-    FDatabase: TIBDatabase;
-    FTransaction: TIBTransaction;
-    FSQL: TIBSQL;
-    procedure EnsureConnected;
+    FFactory: iQueryFactory;
+    FExec: iQuery;
+    FLookup: iQuery;
     function MetadataExists(aSQL: string): boolean;
-  procedure ExecDDL(const aDDL: string);
-  function EnsureException: boolean;
+    procedure ExecDDL(const aDDL: string);
+    function EnsureException: boolean;
   public
     constructor Create(const aDbPath, aUser, aPassword: string);
     destructor Destroy; override;
@@ -27,49 +26,32 @@ implementation
 
 constructor TDbMigrations.Create(const aDbPath, aUser, aPassword: string);
 begin
-  FDatabase := TIBDatabase.Create(nil);
-  FDatabase.LoginPrompt := false;
-  FTransaction := TIBTransaction.Create(nil);
-  FSQL := TIBSQL.Create(nil);
-  FDatabase.DatabaseName := aDbPath;
-  FDatabase.Params.Values['user_name'] := aUser;
-  FDatabase.Params.Values['password'] := aPassword;
-  FTransaction.DefaultDatabase := FDatabase;
-  FSQL.Database := FDatabase;
-  FSQL.Transaction := FTransaction;
+  FFactory := TQueryFactoryIBX.New;
+  FExec := FFactory.NewQuery;
+  FLookup := FFactory.NewQuery;
 end;
 
 destructor TDbMigrations.Destroy;
 begin
-  FSQL.Free;
-  FTransaction.Free;
-  FDatabase.Free;
   inherited;
-end;
-
-procedure TDbMigrations.EnsureConnected;
-begin
-  if not FDatabase.Connected then
-    FDatabase.Open;
-  if not FTransaction.InTransaction then
-    FTransaction.StartTransaction;
 end;
 
 function TDbMigrations.MetadataExists(aSQL: string): boolean;
 begin
-  EnsureConnected;
-  FSQL.SQL.Text := aSQL;
-  FSQL.ExecQuery;
-  Result := not FSQL.EOF;
-  FSQL.Close;
+  FLookup.active(False)
+    .sqlClear
+    .sqlAdd(aSQL)
+    .open;
+  Result := not FLookup.DataSet.IsEmpty;
+  FLookup.active(False);
 end;
 
 procedure TDbMigrations.ExecDDL(const aDDL: string);
 begin
-  EnsureConnected;
-  FSQL.SQL.Text := aDDL;
-  FSQL.ExecQuery;
-  FTransaction.CommitRetaining;
+  FExec.active(False)
+    .sqlClear
+    .sqlAdd(aDDL)
+    .execSql(True);
 end;
 
 procedure TDbMigrations.Apply;
@@ -165,5 +147,5 @@ begin
   Result := MetadataExists('select rdb$exception_name from rdb$exceptions where rdb$exception_name = ''EX_TELEFONE_OBRIGATORIO''');
 end;
 
-
 end.
+

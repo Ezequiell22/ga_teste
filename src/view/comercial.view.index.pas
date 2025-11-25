@@ -31,6 +31,7 @@ type
     MenuRelatorio: TMenuItem;
     procedure MenuClientesClick(Sender: TObject);
     procedure MenuProdutosClick(Sender: TObject);
+    procedure MenuPedidosClick(Sender: TObject);
 
   private
     Fcontroller: iController;
@@ -51,21 +52,39 @@ uses
   comercial.view.Pedido,
   Data.DB,
   Vcl.Grids,
-  Vcl.DBGrids;
+  Vcl.DBGrids,
+  comercial.view.ListagemCliente;
 
 procedure TfrmIndex.MenuClientesClick(Sender: TObject);
 begin
-  inherited;
-  with TfrmCliente.Create(self) do
-  try ShowModal; finally Free; end;
+
+  with TfrmListagemCliente.Create(self) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
+end;
+
+procedure TfrmIndex.MenuPedidosClick(Sender: TObject);
+begin
+  with TfrmPedido.Create(self) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
 end;
 
 procedure TfrmIndex.MenuProdutosClick(Sender: TObject);
 begin
-    inherited;
+  inherited;
   with TfrmProduto.Create(self) do
-  try ShowModal; finally Free; end;
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
 end;
 
 end.
-

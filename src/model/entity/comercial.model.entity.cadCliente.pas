@@ -1,9 +1,10 @@
-unit comercial.model.entity.cadCliente;
+﻿unit comercial.model.entity.cadCliente;
 
 interface
 
 uses
-  comercial.model.DAO.interfaces;
+  comercial.model.DAO.interfaces,
+  comercial.model.validation;
 
 type
   TModelEntityCadCliente = class
@@ -90,7 +91,12 @@ end;
 
 function TModelEntityCadCliente.CNPJ(aValue: string): TModelEntityCadCliente;
 begin
+
   Result := Self;
+
+  if not IsValidCNPJ(aValue) then
+     raise Exception.Create('CNPJ inválido!');
+
   FCNPJ := aValue;
 end;
 
