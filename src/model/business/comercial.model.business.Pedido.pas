@@ -95,6 +95,15 @@ begin
   try
     FQuery.active(False)
       .sqlClear
+      .sqlAdd('select SUM(VALOR_TOTAL_ITEM) vl from pedido_itens')
+      .sqlAdd('where idpedido = :idpedido')
+      .addParam('idpedido', FIdPedido)
+      .open;
+
+    FTotal := Fquery.DataSet.FieldByName('vl').AsFloat;
+
+    FQuery.active(False)
+      .sqlClear
       .sqlAdd('update PEDIDO set VALOR_TOTAL = :VALOR_TOTAL where IDPEDIDO = :IDPEDIDO')
       .addParam('VALOR_TOTAL', FTotal)
       .addParam('IDPEDIDO', FIdPedido)
@@ -134,7 +143,6 @@ end;
 function TModelBusinessPedido.Novo: iModelBusinessPedido;
 begin
   Result := Self;
-
 
   FQuery.active(False)
       .sqlClear

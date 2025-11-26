@@ -164,10 +164,8 @@
             <Form>frmListagemProduto</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="src\view\comercial.view.exibePedido.pas">
-            <Form>frmExibePedido</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
+        <DCCReference Include="src\utils\comercial.util.log.pas"/>
+        <DCCReference Include="src\utils\comercial.util.printhtml.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

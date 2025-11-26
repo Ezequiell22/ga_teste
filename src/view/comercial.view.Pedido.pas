@@ -2,12 +2,18 @@ unit comercial.view.Pedido;
 
 interface
 
-uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.StdCtrls, Vcl.DBGrids,
-  Data.DB,
-  comercial.controller,
-  comercial.controller.interfaces, Vcl.Controls, Vcl.Grids, Vcl.ExtCtrls,
-  comercial.view.exibePedido,
-  comercial.util.print;
+uses System.SysUtils,
+System.Classes,
+Vcl.Forms,
+Vcl.StdCtrls,
+Vcl.Controls,
+vcl.DBGrids,
+Vcl.ExtCtrls,
+Vcl.Grids,
+Data.DB,
+comercial.controller,
+comercial.controller.interfaces,
+comercial.util.printhtml;
 
 type
   TfrmPedido = class(TForm)
@@ -177,7 +183,10 @@ begin
   if MessageDlg('Deseja imprimir o pedido?',
     mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
-    TPrintPedido.ImprimirPedido(StrToIntDef(edtIdPedido.Text, 0));
+
+    TPrintHtmlPedido.GerarHtmlPedido(StrToIntDef(edtIdPedido.Text, 0),
+                                        GetCurrentDir());
+    showMessage('Perido salvo em '+GetCurrentDir());
   end
 end;
 

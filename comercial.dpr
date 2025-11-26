@@ -4,7 +4,6 @@ uses
   Vcl.Forms,
   System.IniFiles,
   System.SysUtils,
-  comercial.util.log,
   comercial.view.index in 'src\view\comercial.view.index.pas' {frmIndex},
   comercial.controller.interfaces in 'src\controller\comercial.controller.interfaces.pas',
   comercial.controller in 'src\controller\comercial.controller.pas',
@@ -30,19 +29,30 @@ uses
   comercial.model.resource.impl.factory in 'src\model\resource\impl\comercial.model.resource.impl.factory.pas',
   comercial.model.resource.impl.queryIBX in 'src\model\resource\impl\comercial.model.resource.impl.queryIBX.pas',
   comercial.view.ListagemProduto in 'src\view\comercial.view.ListagemProduto.pas' {frmListagemProduto},
-  comercial.view.exibePedido in 'src\view\comercial.view.exibePedido.pas' {frmExibePedido};
+  comercial.util.log in 'src\utils\comercial.util.log.pas',
+  comercial.util.printhtml in 'src\utils\comercial.util.printhtml.pas';
 
 {$R *.res}
 
+type
+  TAppExceptionLogger = class
+  public
+    procedure Handle(Sender: TObject; E: Exception);
+  end;
+
+procedure TAppExceptionLogger.Handle(Sender: TObject; E: Exception);
 begin
-  Application.OnException :=
-    procedure(Sender: TObject; E: Exception)
-    begin
-      try
-        TLog.Error('Unhandled: ' + E.ClassName + ' | ' + E.Message);
-      except
-      end;
-    end;
+  try
+    TLog.Error('Unhandled: ' + E.ClassName + ' | ' + E.Message);
+  except
+  end;
+end;
+
+var
+  AppExceptionLogger: TAppExceptionLogger;
+begin
+  AppExceptionLogger := TAppExceptionLogger.Create;
+  Application.OnException := AppExceptionLogger.Handle;
   var
   Mig := TDbMigrations.Create;
   try
@@ -54,7 +64,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmIndex, frmIndex);
-  Application.CreateForm(TfrmExibePedido, frmExibePedido);
   Application.Run;
 
 end.

@@ -25,9 +25,11 @@ type
     ButtonClientes: TButton;
     ButtonProdutos: TButton;
     ButtonPedidos: TButton;
+    ButtonRelatorioTopDois: TButton;
     procedure ButtonProdutosClick(Sender: TObject);
     procedure ButtonClientesClick(Sender: TObject);
     procedure ButtonPedidosClick(Sender: TObject);
+    procedure ButtonRelatorioTopDoisClick(Sender: TObject);
 
   private
     Fcontroller: iController;
@@ -51,7 +53,8 @@ uses
   comercial.view.Produto,
   comercial.view.Pedido,
   comercial.view.ListagemCliente,
-  comercial.view.ListagemProduto;
+  comercial.view.ListagemProduto,
+  comercial.util.printhtml;
 
 procedure TfrmIndex.ButtonClientesClick(Sender: TObject);
 begin
@@ -81,6 +84,17 @@ begin
     finally
       Free;
     end;
+end;
+
+procedure TfrmIndex.ButtonRelatorioTopDoisClick(Sender: TObject);
+var dtini, dtfim : TdateTime;
+begin
+  dtini := StrToDateTime('25/11/2025 00:00:00');
+  dtfim := StrToDateTime('29/11/2025 23:59:59.999');
+
+  TPrintHtmlPedido.GerarRelatorioTopProdutos(dtini, dtfim, getcurrentDir);
+
+  showMessage('Relatório salvo em '+ GetCurrentDir);
 end;
 
 end.
