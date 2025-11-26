@@ -1,4 +1,4 @@
-﻿unit comercial.model.resource.impl.queryIBX;
+unit comercial.model.resource.impl.queryIBX;
 
 interface
 
@@ -8,7 +8,8 @@ uses
   IBX.IBQuery,
   IBX.IBDatabase,
   comercial.model.resource.impl.factory,
-  comercial.model.resource.interfaces;
+  comercial.model.resource.interfaces,
+  comercial.util.log;
 
 type
   TModelResourceQueryIBX = class(TInterfacedObject, iQuery)
@@ -104,7 +105,7 @@ begin
     begin
       if FQuery.Transaction.active then
         FQuery.Transaction.Rollback;
-
+      TLog.Error('SQL Exec: ' + FQuery.SQL.Text + ' | ' + E.ClassName + ' | ' + E.Message);
       raise exception.Create(E.Message);
     end;
 
@@ -134,7 +135,15 @@ begin
   begin
       FQuery.Transaction.CommitRetaining;
   end;
-  FQuery.open;
+  try
+    FQuery.open;
+  except
+    on E: Exception do
+    begin
+      TLog.Error('SQL Open: ' + FQuery.SQL.Text + ' | ' + E.ClassName + ' | ' + E.Message);
+      raise;
+    end;
+  end;
 end;
 
 function TModelResourceQueryIBX.sqlAdd(aValue: string): iQuery;
@@ -150,4 +159,3 @@ begin
 end;
 
 end.
-

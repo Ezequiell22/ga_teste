@@ -4,6 +4,7 @@ uses
   Vcl.Forms,
   System.IniFiles,
   System.SysUtils,
+  comercial.util.log,
   comercial.view.index in 'src\view\comercial.view.index.pas' {frmIndex},
   comercial.controller.interfaces in 'src\controller\comercial.controller.interfaces.pas',
   comercial.controller in 'src\controller\comercial.controller.pas',
@@ -34,6 +35,14 @@ uses
 {$R *.res}
 
 begin
+  Application.OnException :=
+    procedure(Sender: TObject; E: Exception)
+    begin
+      try
+        TLog.Error('Unhandled: ' + E.ClassName + ' | ' + E.Message);
+      except
+      end;
+    end;
   var
   Mig := TDbMigrations.Create;
   try

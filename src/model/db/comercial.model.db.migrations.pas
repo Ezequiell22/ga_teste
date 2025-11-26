@@ -121,22 +121,25 @@ begin
       'end'
     );
 
-//  if not MetadataExists('select rdb$procedure_name from rdb$procedures where rdb$procedure_name = ''SP_TOP_PRODUTOS_VENDIDOS''') then
-//    ExecDDL(
-//      'create or alter procedure SP_TOP_PRODUTOS_VENDIDOS (DTINI date, DTFIM date) ' + #13#10 +
-//      'returns (IDPRODUTO integer, DESCRICAO varchar(150), QTD integer) ' + #13#10 +
-//      'as ' + #13#10 +
-//      'begin ' + #13#10 +
-//      '  for select first 2 i.IDPRODUTO, p.DESCRICAO, sum(i.QUANTIDADE) ' + #13#10 +
-//      '  from PEDIDO_ITENS i ' + #13#10 +
-//      '  join PRODUTO p on p.IDPRODUTO = i.IDPRODUTO ' + #13#10 +
-//      '  join PEDIDO d on d.IDPEDIDO = i.IDPEDIDO ' + #13#10 +
-//      '  where d.DTEMISSAO between :DTINI and :DTFIM ' + #13#10 +
-//      '  group by i.IDPRODUTO, p.DESCRICAO ' + #13#10 +
-//      '  order by sum(i.QUANTIDADE) desc ' + #13#10 +
-//      '  into :IDPRODUTO, :DESCRICAO, :QTD do suspend; ' + #13#10 +
-//      'end'
-//    );
+  if not MetadataExists('select rdb$procedure_name from rdb$procedures where rdb$procedure_name = ''SP_TOP_PRODUTOS_VENDIDOS''') then
+    ExecDDL(
+      'create procedure SP_TOP_PRODUTOS_VENDIDOS (DTINI date, DTFIM date) ' + #13#10 +
+      'returns (IDPRODUTO integer, DESCRICAO varchar(150), QTD numeric(15,3)) ' + #13#10 +
+      'as ' + #13#10 +
+      'begin ' + #13#10 +
+      '  for select first 2 i.IDPRODUTO, p.DESCRICAO, sum(i.QUANTIDADE) ' + #13#10 +
+      '    from PEDIDO_ITENS i ' + #13#10 +
+      '    join PRODUTO p on p.IDPRODUTO = i.IDPRODUTO ' + #13#10 +
+      '    join PEDIDO d on d.IDPEDIDO = i.IDPEDIDO ' + #13#10 +
+      '   where d.DTEMISSAO between :DTINI and :DTFIM ' + #13#10 +
+      '   group by i.IDPRODUTO, p.DESCRICAO ' + #13#10 +
+      '   order by sum(i.QUANTIDADE) desc ' + #13#10 +
+      '   into :IDPRODUTO, :DESCRICAO, :QTD do ' + #13#10 +
+      '  begin ' + #13#10 +
+      '    suspend; ' + #13#10 +
+      '  end ' + #13#10 +
+      'end'
+    );
 end;
 
 function TDbMigrations.EnsureException: boolean;
@@ -145,4 +148,3 @@ begin
 end;
 
 end.
-
