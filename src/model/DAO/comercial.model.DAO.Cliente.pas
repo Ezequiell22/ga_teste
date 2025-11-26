@@ -3,12 +3,12 @@ unit comercial.model.DAO.Cliente;
 interface
 
 uses
+    Data.DB,
+    System.Generics.Collections,
   comercial.model.DAO.interfaces,
   comercial.model.entity.Cliente,
-  Data.DB,
   comercial.model.resource.interfaces,
-  comercial.model.resource.impl.queryIBX,
-  System.Generics.Collections;
+  comercial.model.resource.impl.queryIBX;
 
 type
   TModelDAOCliente = class(TInterfacedObject, iModelDAOEntity<TModelEntityCliente>)

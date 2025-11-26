@@ -87,14 +87,18 @@ begin
 end;
 
 procedure TfrmIndex.ButtonRelatorioTopDoisClick(Sender: TObject);
-var dtini, dtfim : TdateTime;
+var
+  dtini, dtfim: TdateTime;
 begin
   dtini := StrToDateTime('25/11/2025 00:00:00');
   dtfim := StrToDateTime('29/11/2025 23:59:59.999');
 
-  TPrintHtmlPedido.GerarRelatorioTopProdutos(dtini, dtfim, getcurrentDir);
+  Fcontroller := TController.new;
 
-  showMessage('Relatório salvo em '+ GetCurrentDir);
+  Fcontroller.business.RelatorioProdutos.Gerar(dtini,
+                      dtfim);
+
+  showMessage('Relatório salvo em ' + GetCurrentDir);
 end;
 
 end.

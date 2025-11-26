@@ -45,6 +45,7 @@ object frmListagemCliente: TfrmListagemCliente
     Width = 624
     Height = 200
     Align = alBottom
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

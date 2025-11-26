@@ -73,7 +73,7 @@ begin
 
   LoadComboboxCliente;
   LoadComboBoxProduto;
-
+  gridItens.Options := gridItens.Options - [dgediting];
 end;
 
 destructor TfrmPedido.Destroy;

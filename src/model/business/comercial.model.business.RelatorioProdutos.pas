@@ -21,7 +21,7 @@ type
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, comercial.util.printhtml;
 
 constructor TModelBusinessRelatorioProdutos.Create;
 begin
@@ -35,13 +35,9 @@ end;
 
 function TModelBusinessRelatorioProdutos.Gerar(aDtIni, aDtFim: TDateTime): iModelBusinessRelatorioProdutos;
 begin
-  Result := Self;
-  FQuery.active(False)
-    .sqlClear
-    .sqlAdd('select * from SP_TOP_PRODUTOS_VENDIDOS(:DTINI, :DTFIM)')
-    .addParam('DTINI', aDtIni)
-    .addParam('DTFIM', aDtFim)
-    .Open;
+
+  TPrintHtmlPedido.GerarRelatorioTopProdutos(adtini, adtfim, getcurrentDir);
+
 end;
 
 function TModelBusinessRelatorioProdutos.LinkDataSource(aDataSource: TDataSource): iModelBusinessRelatorioProdutos;

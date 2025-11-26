@@ -37,9 +37,9 @@ object frmCliente: TfrmCliente
   object Label4: TLabel
     Left = 8
     Top = 65
-    Width = 48
+    Width = 25
     Height = 13
-    Caption = 'CNPJ-CPF'
+    Caption = 'CNPJ'
   end
   object Label5: TLabel
     Left = 164
@@ -60,6 +60,7 @@ object frmCliente: TfrmCliente
     Top = 32
     Width = 80
     Height = 21
+    NumbersOnly = True
     TabOrder = 0
   end
   object edtFantasia: TEdit
@@ -72,7 +73,7 @@ object frmCliente: TfrmCliente
   object edtRazao: TEdit
     Left = 304
     Top = 32
-    Width = 200
+    Width = 284
     Height = 21
     TabOrder = 2
   end
@@ -95,6 +96,7 @@ object frmCliente: TfrmCliente
     Top = 84
     Width = 120
     Height = 21
+    NumbersOnly = True
     TabOrder = 5
   end
   object btnSalvar: TButton

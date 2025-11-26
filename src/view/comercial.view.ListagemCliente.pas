@@ -80,6 +80,7 @@ procedure TfrmListagemCliente.FormShow(Sender: TObject);
 begin
   FController := TController.New;
   dbgrid1.DataSource := datasource1;
+  dbgrid1.Options := dbgrid1.Options - [dgediting];
   FController.business.Cliente.Bind(datasource1).Get;
 end;
 

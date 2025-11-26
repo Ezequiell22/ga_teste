@@ -3,10 +3,11 @@ unit comercial.model.business.Pedido;
 interface
 
 uses
+  Data.DB, Vcl.StdCtrls,
   comercial.model.business.interfaces,
   comercial.model.resource.Interfaces,
   comercial.model.resource.impl.queryIBX,
-  Data.DB, Vcl.StdCtrls, comercial.model.DAO.interfaces,
+  comercial.model.DAO.interfaces,
   comercial.model.entity.Cliente;
 
 type
@@ -70,6 +71,7 @@ begin
 
     FIdCliente := FQuery.DataSet.FieldByName('IDCLIENTE').AsInteger;
 
+    // coloca somente o cliente do pedido
     FDAOCliente:= TmodelDAOCliente.new;
     FDAOCliente.GetbyId(FIdCliente);
 

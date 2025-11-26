@@ -5,8 +5,9 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Forms, Vcl.StdCtrls,
   Data.DB,
+  Vcl.Controls, Vcl.Grids,
   comercial.controller,
-  comercial.controller.interfaces, Vcl.Controls, Vcl.Grids;
+  comercial.controller.interfaces;
 
 type
   TfrmCliente = class(TForm)
