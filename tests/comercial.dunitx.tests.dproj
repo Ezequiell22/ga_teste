@@ -1,0 +1,54 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{7F1FB5C5-6B99-4B0A-9D1C-9B7B33C96A72}</ProjectGuid>
+    <ProjectVersion>20.3</ProjectVersion>
+    <FrameworkType>None</FrameworkType>
+    <Base>True</Base>
+    <Config Condition="'$(Config)'==''">Debug</Config>
+    <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    <TargetedPlatforms>1</TargetedPlatforms>
+    <AppType>Console</AppType>
+    <MainSource>comercial.dunitx.tests.dpr</MainSource>
+    <ProjectName Condition="'$(ProjectName)'==''">comercial_dunitx_tests</ProjectName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Base)'!=''">
+    <DCC_DcuOutput>..\$(Platform)\$(Config)</DCC_DcuOutput>
+    <DCC_ExeOutput>..\$(Platform)\$(Config)</DCC_ExeOutput>
+    <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;$(DCC_Namespace)</DCC_Namespace>
+    <SanitizedProjectName>comercial_dunitx_tests</SanitizedProjectName>
+    <DCC_UnitSearchPath>.;..\src;..\src\model;..\src\model\DAO;..\src\model\business;..\src\model\db;..\src\model\entity;..\src\model\resource;..\src\model\resource\impl;..\src\utils;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <DelphiCompile Include="$(MainSource)">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="Comercial.Tests.Migrations.pas"/>
+    <DCCReference Include="Comercial.Tests.Cliente.pas"/>
+    <DCCReference Include="Comercial.Tests.Produto.pas"/>
+    <DCCReference Include="Comercial.Tests.Pedido.pas"/>
+    <DCCReference Include="Comercial.Tests.RelatorioHTML.pas"/>
+    <BuildConfiguration Include="Base">
+      <Key>Base</Key>
+    </BuildConfiguration>
+    <BuildConfiguration Include="Debug">
+      <Key>Cfg_1</Key>
+      <CfgParent>Base</CfgParent>
+    </BuildConfiguration>
+    <BuildConfiguration Include="Release">
+      <Key>Cfg_2</Key>
+      <CfgParent>Base</CfgParent>
+    </BuildConfiguration>
+  </ItemGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+    <Borland.ProjectType>Application</Borland.ProjectType>
+    <BorlandProject>
+      <Delphi.Personality>
+        <Source>
+          <Source Name="MainSource">comercial.dunitx.tests.dpr</Source>
+        </Source>
+      </Delphi.Personality>
+    </BorlandProject>
+  </ProjectExtensions>
+</Project>
+
