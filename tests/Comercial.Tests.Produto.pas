@@ -61,7 +61,7 @@ begin
   B.Editar(id, Desc + ' UP', 'Marca UP', 12.5);
   Q.active(False).sqlClear.sqlAdd('select * from PRODUTO where IDPRODUTO = :ID').addParam('ID', id).open;
   Assert.AreEqual('Marca UP', Q.DataSet.FieldByName('MARCA').AsString);
-  Assert.AreEqual(12.5, Q.DataSet.FieldByName('PRECO').AsFloat);
+  Assert.AreEqual(Double(12.5), Q.DataSet.FieldByName('PRECO').AsFloat);
   B.Excluir(id);
   Q.active(False).sqlClear.sqlAdd('select 1 from PRODUTO where IDPRODUTO = :ID').addParam('ID', id).open;
   Assert.IsTrue(Q.DataSet.IsEmpty);

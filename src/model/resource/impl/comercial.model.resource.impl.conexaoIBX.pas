@@ -7,7 +7,7 @@ uses
   IBX.IBDatabase,
   comercial.model.resource.interfaces,
   Data.DB,
-  inifiles;
+  System.inifiles;
 
 type
   TmodelResourceConexaoIBX = class(TInterfacedObject, iConexao)

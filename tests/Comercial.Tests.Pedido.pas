@@ -64,7 +64,7 @@ begin
   BPedido.setIdproduto(ProdutoId).AdicionarItem(0, 2.0).Finalizar;
 
   Q.active(False).sqlClear.sqlAdd('select VALOR_TOTAL from PEDIDO where IDPEDIDO = :ID').addParam('ID', PedidoId).open;
-  Assert.AreEqual(40.0, Q.DataSet.FieldByName('VALOR_TOTAL').AsFloat);
+  Assert.AreEqual(Double(40.0), Q.DataSet.FieldByName('VALOR_TOTAL').AsFloat);
 end;
 
 end.

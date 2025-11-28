@@ -20,7 +20,7 @@ uses
   System.IOUtils,
   System.IniFiles,
   System.DateUtils,
-  SyncObjs;
+  System.SyncObjs;
 
 var
   GLock: TCriticalSection;
