@@ -52,4 +52,7 @@ begin
     System.ExitCode := 0
   else
     System.ExitCode := 1;
+
+  Writeln('--- Testes finalizados. Pressione ENTER para sair ---');
+  Readln;
 end.

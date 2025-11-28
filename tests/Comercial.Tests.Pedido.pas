@@ -9,7 +9,6 @@ uses
   comercial.model.business.Pedido,
   comercial.model.business.Cliente,
   comercial.model.business.Produto,
-  comercial.model.db.migrations,
   comercial.model.resource.interfaces,
   comercial.model.resource.impl.queryIBX;
 
@@ -30,7 +29,6 @@ uses
 
 procedure TTestPedido.Setup;
 begin
-  TDbMigrations.Create.Apply;
 end;
 
 procedure TTestPedido.CreatePedidoAddItemAndFinalizeTotal;

@@ -7,7 +7,6 @@ uses
   Data.DB,
   comercial.model.business.interfaces,
   comercial.model.business.Produto,
-  comercial.model.db.migrations,
   comercial.model.resource.interfaces,
   comercial.model.resource.impl.queryIBX;
 
@@ -32,7 +31,6 @@ uses
 
 procedure TTestProduto.Setup;
 begin
-  TDbMigrations.Create.Apply;
 end;
 
 function TTestProduto.NextId: Integer;

@@ -82,6 +82,7 @@ begin
   Result := Self;
   FDAOCliente
     .This
+      .IDCLIENTE(Aid)
       .NM_FANTASIA(aFantasia)
       .RAZAO_SOCIAL(aRazao)
       .CNPJ(aCnpj)
@@ -89,8 +90,6 @@ begin
       .TELEFONE(aTelefone)
       .&End
     .Update
-
-
 end;
 
 function TModelBusinessCliente.Excluir(aId: Integer): iModelBusinessCliente;
