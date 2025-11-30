@@ -10,6 +10,7 @@ type
   TResource = class(TInterfacedObject, iResource)
     private
       FConexao: iConexao;
+      class var FSharedConexao: iConexao;
     public
       constructor Create;
       destructor Destroy; override;
@@ -26,7 +27,9 @@ end;
 
 constructor TResource.Create;
 begin
-  FConexao := TmodelResourceConexaoIBX.New;
+  if FSharedConexao = nil then
+    FSharedConexao := TmodelResourceConexaoIBX.New;
+  FConexao := FSharedConexao;
 end;
 
 destructor TResource.Destroy;

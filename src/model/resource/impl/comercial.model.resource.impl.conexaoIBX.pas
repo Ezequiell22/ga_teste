@@ -26,6 +26,12 @@ implementation
 function TmodelResourceConexaoIBX.Connect: TCustomConnection;
 begin
   try
+    if FConn.Connected then
+    begin
+      Result := FConn;
+      Exit;
+    end;
+
     FConn.Params.Clear;
 
       var iniPath := ExtractFilePath(ParamStr(0)) + 'comercial.ini';
@@ -46,7 +52,7 @@ begin
     Result := FConn;
   except
     on e: exception do
-      raise exception.Create('Não foi possivel realizar a conexão ' +
+      raise exception.Create('Nï¿½o foi possivel realizar a conexï¿½o ' +
         e.message);
   end;
 end;
