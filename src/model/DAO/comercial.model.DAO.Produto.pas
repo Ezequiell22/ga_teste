@@ -57,11 +57,13 @@ end;
 function TModelDAOProduto.Delete: iModelDAOEntity<TModelEntityProduto>;
 begin
   Result := Self;
-  try
+ try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('delete from PRODUTO where IDPRODUTO = :IDPRODUTO')
+      .sqlAdd('update PRODUTO set ACTIVE = :ACTIVE ')
+      .sqlAdd('where IDPRODUTO = :IDPRODUTO')
       .addParam('IDPRODUTO', FEntity.IDPRODUTO)
+      .addParam('ACTIVE', 0)
       .execSql;
   except
     on E: Exception do
@@ -81,7 +83,7 @@ begin
   try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('select * from PRODUTO')
+      .sqlAdd('select * from PRODUTO WHERE ACTIVE = 1')
       .Open;
     FQuery.DataSet.First;
   except
@@ -122,11 +124,13 @@ begin
   try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('insert into PRODUTO (IDPRODUTO, DESCRICAO, MARCA, PRECO)')
-      .sqlAdd('values ((select coalesce(max(IDPRODUTO),0)+1 from PRODUTO), :DESCRICAO, :MARCA, :PRECO)')
+      .sqlAdd('insert into PRODUTO (IDPRODUTO, DESCRICAO, MARCA, PRECO, ACTIVE)')
+      .sqlAdd('values ((select coalesce(max(IDPRODUTO),0)+1 from PRODUTO),')
+      .sqlAdd(':DESCRICAO, :MARCA, :PRECO, :ACTIVE)')
       .addParam('DESCRICAO', FEntity.DESCRICAO)
       .addParam('MARCA', FEntity.MARCA)
       .addParam('PRECO', FEntity.PRECO)
+      .addParam('ACTIVE', 1)
       .execSql;
   except
     on E: Exception do
@@ -150,12 +154,14 @@ begin
   try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('update PRODUTO set DESCRICAO = :DESCRICAO, MARCA = :MARCA, PRECO = :PRECO')
+      .sqlAdd('update PRODUTO set DESCRICAO = :DESCRICAO,')
+      .sqlAdd('MARCA = :MARCA, PRECO = :PRECO, ACTIVE = :ACTIVE')
       .sqlAdd('where IDPRODUTO = :IDPRODUTO')
       .addParam('IDPRODUTO', FEntity.IDPRODUTO)
       .addParam('DESCRICAO', FEntity.DESCRICAO)
       .addParam('MARCA', FEntity.MARCA)
       .addParam('PRECO', FEntity.PRECO)
+      .addParam('ACTIVE', 1)
       .execSql;
   except
     on E: Exception do

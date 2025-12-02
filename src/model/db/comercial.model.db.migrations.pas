@@ -64,7 +64,8 @@ begin
       '  RAZAO_SOCIAL varchar(150) not null,' + #13#10 +
       '  CNPJ varchar(18),' + #13#10 +
       '  ENDERECO varchar(200),' + #13#10 +
-      '  TELEFONE varchar(20)' + #13#10 +
+      '  TELEFONE varchar(20),' + #13#10 +
+      '  ACTIVE integer not null' + #13#10 +
       ')'
     );
 
@@ -75,7 +76,8 @@ begin
       '  IDPRODUTO integer not null primary key,' + #13#10 +
       '  DESCRICAO varchar(150) not null,' + #13#10 +
       '  MARCA varchar(100),' + #13#10 +
-      '  PRECO numeric(15,2) not null' + #13#10 +
+      '  PRECO numeric(15,2) not null,' + #13#10 +
+      '  ACTIVE integer not null' + #13#10 +
       ')'
     );
 

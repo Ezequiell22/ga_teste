@@ -58,11 +58,13 @@ end;
 function TModelDAOCliente.Delete: iModelDAOEntity<TModelEntityCliente>;
 begin
   Result := Self;
-  try
+ try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('delete from CLIENTE where IDCLIENTE = :IDCLIENTE')
+      .sqlAdd('update CLIENTE set ACTIVE = :ACTIVE ')
+      .sqlAdd('where IDCLIENTE = :IDCLIENTE')
       .addParam('IDCLIENTE', FEntity.IDCLIENTE)
+      .addParam('ACTIVE', 0)
       .execSql;
   except
     on E: Exception do
@@ -82,7 +84,7 @@ begin
   try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('select * from CLIENTE')
+      .sqlAdd('select * from CLIENTE where ACTIVE = 1')
       .Open;
     FQuery.DataSet.First;
   except
@@ -123,13 +125,16 @@ begin
   try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('insert into CLIENTE (IDCLIENTE, NM_FANTASIA, RAZAO_SOCIAL, CNPJ, ENDERECO, TELEFONE)')
-      .sqlAdd('values ((select coalesce(max(IDCLIENTE),0)+1 from CLIENTE), :NM_FANTASIA, :RAZAO_SOCIAL, :CNPJ, :ENDERECO, :TELEFONE)')
+      .sqlAdd('insert into CLIENTE (IDCLIENTE, NM_FANTASIA, ')
+      .sqlAdd(' RAZAO_SOCIAL, CNPJ, ENDERECO, TELEFONE, ACTIVE)')
+      .sqlAdd('values ((select coalesce(max(IDCLIENTE),0)+1 from CLIENTE),')
+      .sqlAdd(':NM_FANTASIA, :RAZAO_SOCIAL, :CNPJ, :ENDERECO, :TELEFONE, :ACTIVE)')
       .addParam('NM_FANTASIA', FEntity.NM_FANTASIA)
       .addParam('RAZAO_SOCIAL', FEntity.RAZAO_SOCIAL)
       .addParam('CNPJ', FEntity.CNPJ)
       .addParam('ENDERECO', FEntity.ENDERECO)
       .addParam('TELEFONE', FEntity.TELEFONE)
+      .addParam('ACTIVE', 1)
       .execSql;
   except
     on E: Exception do
@@ -154,7 +159,10 @@ begin
   try
     FQuery.active(False)
       .sqlClear
-      .sqlAdd('update CLIENTE set NM_FANTASIA = :NM_FANTASIA, RAZAO_SOCIAL = :RAZAO_SOCIAL, CNPJ = :CNPJ, ENDERECO = :ENDERECO, TELEFONE = :TELEFONE')
+      .sqlAdd('update CLIENTE set NM_FANTASIA = :NM_FANTASIA, ')
+      .sqlAdd(' RAZAO_SOCIAL = :RAZAO_SOCIAL, CNPJ = :CNPJ, ')
+      .sqlAdd(' ENDERECO = :ENDERECO, TELEFONE = :TELEFONE,')
+      .sqlAdd(' ACTIVE = :ACTIVE')
       .sqlAdd('where IDCLIENTE = :IDCLIENTE')
       .addParam('IDCLIENTE', FEntity.IDCLIENTE)
       .addParam('NM_FANTASIA', FEntity.NM_FANTASIA)
@@ -162,6 +170,7 @@ begin
       .addParam('CNPJ', FEntity.CNPJ)
       .addParam('ENDERECO', FEntity.ENDERECO)
       .addParam('TELEFONE', FEntity.TELEFONE)
+      .addParam('ACTIVE', 1)
       .execSql;
   except
     on E: Exception do

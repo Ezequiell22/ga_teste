@@ -9,74 +9,44 @@ USER 'sysdba' PASSWORD 'masterkey';
 
 
 \# criar procedure do relatorio
+isql "C:\ga_teste\win32\debug\dados.fdb" -user sysdba -password masterkey
 
 
 
 SET TERM ^ ;
 
-
-
-CREATE OR ALTER PROCEDURE SP\_TOP\_PRODUTOS\_VENDIDOS (
-
-&nbsp; DTINI DATE,
-
-&nbsp; DTFIM DATE
-
+CREATE OR ALTER PROCEDURE SP_TOP_PRODUTOS_VENDIDOS (
+  DTINI DATE,
+  DTFIM DATE
 )
-
 RETURNS (
-
-&nbsp; IDPRODUTO INTEGER,
-
-&nbsp; DESCRICAO VARCHAR(150),
-
-&nbsp; QTD NUMERIC(15,3)
-
+  IDPRODUTO INTEGER,
+  DESCRICAO VARCHAR(150),
+  QTD NUMERIC(15,3)
 )
-
 AS
-
 BEGIN
-
-&nbsp; FOR
-
-&nbsp;   SELECT 
-
-&nbsp;          i.IDPRODUTO,
-
-&nbsp;          p.DESCRICAO,
-
-&nbsp;          SUM(i.QUANTIDADE) AS QTD
-
-&nbsp;     FROM PEDIDO\_ITENS i
-
-&nbsp;     JOIN PRODUTO p ON p.IDPRODUTO = i.IDPRODUTO
-
-&nbsp;     JOIN PEDIDO d ON d.IDPEDIDO = i.IDPEDIDO
-
-&nbsp;    WHERE d.DTEMISSAO BETWEEN :DTINI AND :DTFIM
-
-&nbsp;    GROUP BY i.IDPRODUTO, p.DESCRICAO
-
-&nbsp;    ORDER BY QTD DESC
-
-&nbsp;    ROWS 2
-
-&nbsp;    INTO :IDPRODUTO, :DESCRICAO, :QTD
-
-&nbsp; DO
-
-&nbsp; BEGIN
-
-&nbsp;   SUSPEND;
-
-&nbsp; END
-
+  FOR
+    SELECT 
+           i.IDPRODUTO,
+           p.DESCRICAO,
+           SUM(i.QUANTIDADE) AS QTD
+      FROM PEDIDO_ITENS i
+      JOIN PRODUTO p ON p.IDPRODUTO = i.IDPRODUTO
+      JOIN PEDIDO d ON d.IDPEDIDO = i.IDPEDIDO
+     WHERE d.DTEMISSAO BETWEEN :DTINI AND :DTFIM
+     GROUP BY i.IDPRODUTO, p.DESCRICAO
+     ORDER BY QTD DESC
+     ROWS 2
+     INTO :IDPRODUTO, :DESCRICAO, :QTD
+  DO
+  BEGIN
+    SUSPEND;
+  END
 END^
 
-
-
 SET TERM ; ^
+
 
 
 ## Configuração da Aplicação

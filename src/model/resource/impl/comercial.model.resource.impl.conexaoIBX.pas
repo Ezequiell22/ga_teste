@@ -1,4 +1,4 @@
-unit comercial.model.resource.impl.conexaoIBX;
+﻿unit comercial.model.resource.impl.conexaoIBX;
 
 interface
 
@@ -52,7 +52,7 @@ begin
     Result := FConn;
   except
     on e: exception do
-      raise exception.Create('N�o foi possivel realizar a conex�o ' +
+      raise exception.Create('Não foi possivel realizar a conex�o ' +
         e.message);
   end;
 end;

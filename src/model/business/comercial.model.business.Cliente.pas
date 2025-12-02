@@ -95,11 +95,12 @@ end;
 function TModelBusinessCliente.Excluir(aId: Integer): iModelBusinessCliente;
 begin
   Result := Self;
+
   FDAOCliente
     .This
-     .IDCLIENTE(aId)
+      .IDCLIENTE(Aid)
       .&End
-    .delete
+    .Delete
 
 end;
 

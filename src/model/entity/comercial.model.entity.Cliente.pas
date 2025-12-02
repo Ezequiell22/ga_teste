@@ -17,6 +17,7 @@ type
     FCNPJ: string;
     FENDERECO: string;
     FTELEFONE: string;
+    FACTIVE : Boolean;
   public
     constructor Create(aParent: iModelDAOEntity<TModelEntityCliente>);
     destructor Destroy; override;
@@ -32,6 +33,8 @@ type
     function ENDERECO: string; overload;
     function TELEFONE(aValue: string): TModelEntityCliente; overload;
     function TELEFONE: string; overload;
+    function ACTIVE(aValue: Boolean): TModelEntityCliente; overload;
+    function ACTIVE: Boolean; overload;
     function &End: iModelDAOEntity<TModelEntityCliente>;
   end;
 
@@ -98,6 +101,17 @@ begin
      raise Exception.Create('CNPJ inválido!');
 
   FCNPJ := aValue;
+end;
+
+function TModelEntityCliente.ACTIVE: Boolean;
+begin
+  result := Factive
+end;
+
+function TModelEntityCliente.ACTIVE(aValue: Boolean): TModelEntityCliente;
+begin
+  result := Self;
+  Factive := Avalue
 end;
 
 function TModelEntityCliente.CNPJ: string;

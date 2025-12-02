@@ -4,8 +4,7 @@ interface
 
 uses
   DUnitX.TestFramework,
-  comercial.util.printhtml,
-  comercial.model.db.migrations;
+  comercial.util.printhtml;
 
 type
   [TestFixture]
@@ -24,7 +23,7 @@ uses
 
 procedure TTestRelatorioHTML.Setup;
 begin
-  TDbMigrations.Create.Apply;
+
 end;
 
 procedure TTestRelatorioHTML.ShouldGenerateTopProdutosHTML;

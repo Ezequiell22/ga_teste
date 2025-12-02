@@ -13,6 +13,7 @@ type
     FDESCRICAO: string;
     FMARCA: string;
     FPRECO: Double;
+    FACTIVE: Boolean;
   public
     constructor Create(aParent: iModelDAOEntity<TModelEntityProduto>);
     destructor Destroy; override;
@@ -24,6 +25,8 @@ type
     function MARCA: string; overload;
     function PRECO(aValue: Double): TModelEntityProduto; overload;
     function PRECO: Double; overload;
+    function ACTIVE(aValue: Boolean): TModelEntityProduto; overload;
+    function ACTIVE: Boolean; overload;
     function &End: iModelDAOEntity<TModelEntityProduto>;
   end;
 
@@ -31,7 +34,19 @@ implementation
 
 uses System.SysUtils;
 
-constructor TModelEntityProduto.Create(aParent: iModelDAOEntity<TModelEntityProduto>);
+function TModelEntityProduto.ACTIVE: Boolean;
+begin
+  result := FACTIVE
+end;
+
+function TModelEntityProduto.ACTIVE(aValue: Boolean): TModelEntityProduto;
+begin
+  Result := Self;
+  FACTIVE := Avalue;
+end;
+
+constructor TModelEntityProduto.Create
+  (aParent: iModelDAOEntity<TModelEntityProduto>);
 begin
   FParent := aParent;
 end;
@@ -97,4 +112,3 @@ begin
 end;
 
 end.
-
